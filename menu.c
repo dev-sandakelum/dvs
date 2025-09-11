@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h> // Add this line for atoi
+#include <string.h>
+
+// global variables
+char *err ;
 
 int clear_screen() {
     if (system("ver") == 0) {
@@ -8,6 +12,15 @@ int clear_screen() {
         system("clear");
     }
 }
+
+int error_message(char *err) {
+    if (err) {
+        printf("----------------------------------------\n");
+        printf("%s\n", err);
+        printf("----------------------------------------\n");
+    }
+}
+
 int top_bar(){
 
     clear_screen();
@@ -17,29 +30,46 @@ int top_bar(){
 }
 
 int register_user() {
+    int exit;
     top_bar();
     printf("| REGISTRATION -------------------------\n");
+
+    // Get user details
     printf("  Enter your name: ");
     char name[100];
     scanf("%s", &name);
-    printf("  Enter your NIC number: ");
-    char nic[20];
-    scanf("%s", &nic);
 
-    printf("\n| ELIGIBILITY -------------------------\n");
-    printf("  Enter your year of birth (YYYY): ");
-    char dob[5];
-    scanf("%s", &dob);
-
-    if (atoi(dob) <= (2025-18)) {
-        printf("User is eligible to register.\n");
-        printf("User registered successfully.\n");
-
-        return 0;
-    } else {
-        printf("User is not eligible to register.\n");
-        return 1; //exit
+    // Get NIC number & validate
+    while(1){
+        error_message(err);
+        printf("  Enter your NIC number: ");
+        char nic[20];
+        scanf("%s", &nic);
+        if (strlen(nic) != 12) {
+            err = "Invalid NIC number.\nPlease enter a 12-digit NIC number.";
+            continue;
+        }else{
+            printf("\n| ELIGIBILITY -------------------------\n");
+            printf("  Enter your year of birth (YYYY): ");
+            char dob[5];
+            scanf("%s", &dob);
+            if (atoi(dob) <= (2025-18)) {   
+                err = "Registration successful.";
+                error_message(err);
+                printf("Press any key to return to menu: ");
+                scanf("%d", &exit);
+                return 1;
+            } else {
+                err = "User is not eligible to register.";
+                error_message(err);
+                printf("Press any key to return to menu: ");
+                scanf("%d", &exit);
+                return 1;
+            }
+        }
+        
     }
+    
 }
 
 int main() {
