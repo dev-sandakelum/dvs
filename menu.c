@@ -26,46 +26,63 @@ int register_user() {
     if (atoi(dob) <= (2025-18)) {
         printf("User is eligible to register.\n");
         printf("User registered successfully.\n");
-        
+
         return 0;
     } else {
         printf("User is not eligible to register.\n");
-        return 0; //exit
+        return 1; //exit
     }
 }
 
 int main() {
-    int choice;
-    top_bar();
-    printf("1. Login\n");
-    printf("2. Register\n");
-    printf("3. Vote\n");
-    printf("4. View Results\n");
-    printf("0. Exit\n");
-    printf("========================================\n");
-    printf("Enter your choice: ");
-    scanf("%d", &choice);
+    while(1){
+        int choice;
+        top_bar();
+        printf("1. Login\n");
+        printf("2. Register\n");
+        printf("3. Vote\n");
+        printf("4. View Results\n");
+        printf("0. Exit\n");
+        printf("========================================\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
-    switch (choice) {
-        case 1:
-            register_user();
+        int key_return = 0;
+        switch (choice) {
+            case 1:
+                printf("Login selected.\n");
+                break;
+            case 2:
+                while(key_return == 0) {
+                    int x  = register_user();
+                    key_return = x;
+                }
+                break;
+            case 3:
+                printf("Vote selected.\n");
+                break;
+            case 4:
+                printf("View Results selected.\n");
+                break;
+            case 0:
+                printf("Exiting...\n");
+                key_return = 5;
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+                break;
+        }
+        if (key_return == 1) {
+            printf("========================================\n");
+            printf("You must be at least 18 years old\n");
+            printf("========================================\n");
+            
+        }else if(key_return == 5){
+            printf("========================================\n");
+            printf("Successfully exited\n");
+            printf("========================================\n");
             break;
-        case 2:
-            printf("Register selected.\n");
-            break;
-        case 3:
-            printf("Vote selected.\n");
-            break;
-        case 4:
-            printf("View Results selected.\n");
-            break;
-        case 0:
-            printf("Exiting...\n");
-            break;
-        default:
-            printf("Invalid choice. Please try again.\n");
-            break;
+        }
     }
-
     return 0;
 }
