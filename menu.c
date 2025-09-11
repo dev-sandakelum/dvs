@@ -1,8 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h> // Add this line for atoi
 
+int clear_screen() {
+    if (system("ver") == 0) {
+        system("cls");
+    } else {
+        system("clear");
+    }
+}
 int top_bar(){
-    system("clear");
+
+    clear_screen();
     printf("\n========================================\n");
     printf("SRI LANKA PARLIAMENTARY ELECTION SYSTEM\n");
     printf("----------------------------------------\n");
