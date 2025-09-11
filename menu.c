@@ -30,6 +30,7 @@ int top_bar(){
 }
 
 int register_user() {
+    err = NULL;
     int exit;
     top_bar();
     printf("| REGISTRATION -------------------------\n");
@@ -53,23 +54,26 @@ int register_user() {
             printf("  Enter your year of birth (YYYY): ");
             char dob[5];
             scanf("%s", &dob);
-            if (atoi(dob) <= (2025-18)) {   
+            int birth_year = atoi(dob);
+            int age = 2025 - birth_year;
+            if (age >= 18) {   
                 err = "Registration successful.";
                 error_message(err);
                 printf("Press any key to return to menu: ");
-                scanf("%d", &exit);
-                return 1;
+                char dummy;
+                scanf(" %c", &dummy);
+                break;
             } else {
                 err = "User is not eligible to register.";
                 error_message(err);
                 printf("Press any key to return to menu: ");
-                scanf("%d", &exit);
-                return 1;
+                char dummy;
+                scanf(" %c", &dummy);
+                return 0;
             }
         }
-        
     }
-    
+    return 1;
 }
 
 int main() {
@@ -91,11 +95,9 @@ int main() {
                 printf("Login selected.\n");
                 break;
             case 2:
-                while(key_return == 0) {
-                    int x  = register_user();
-                    key_return = x;
-                }
+                register_user();
                 break;
+                    
             case 3:
                 printf("Vote selected.\n");
                 break;
