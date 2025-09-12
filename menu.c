@@ -13,6 +13,12 @@ int clear_screen() {
     }
 }
 
+int exit_to() {
+    printf("Press any key to return to menu: ");
+    char temp;
+    scanf(" %c", &temp);
+}
+
 int error_message(char *err) {
     if (err) {
         printf("----------------------------------------\n");
@@ -52,24 +58,19 @@ int register_user() {
         }else{
             printf("\n| ELIGIBILITY -------------------------\n");
             printf("  Enter your year of birth (YYYY): ");
-            char dob[5];
-            scanf("%s", &dob);
-            int birth_year = atoi(dob);
-            int age = 2025 - birth_year;
-            if (age >= 18) {   
+            int dob;
+            scanf("%d", &dob);
+            int age = 2025 - dob;
+            if (age >= 18) {
                 err = "Registration successful.";
                 error_message(err);
-                printf("Press any key to return to menu: ");
-                char dummy;
-                scanf(" %c", &dummy);
+                exit_to();
                 break;
             } else {
                 err = "User is not eligible to register.";
                 error_message(err);
-                printf("Press any key to return to menu: ");
-                char dummy;
-                scanf(" %c", &dummy);
-                return 0;
+                exit_to();
+                break;
             }
         }
     }
