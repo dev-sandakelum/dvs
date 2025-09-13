@@ -79,7 +79,7 @@ int register_user() {
 
 int main() {
     while(1){
-        int choice;
+        int choice , key_return = 0;
         top_bar();
         printf("1. Login\n");
         printf("2. Register\n");
@@ -90,7 +90,6 @@ int main() {
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
-        int key_return = 0;
         switch (choice) {
             case 1:
                 printf("Login selected.\n");
