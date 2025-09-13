@@ -1,9 +1,9 @@
 #include <stdio.h>
-#include <stdlib.h> // Add this line for atoi
+#include <stdlib.h>
 #include <string.h>
 
-// global variables
-char *err ;
+// Global variables
+char *err;
 
 int clear_screen() {
     if (system("ver") == 0) {
@@ -11,6 +11,7 @@ int clear_screen() {
     } else {
         system("clear");
     }
+    return 0;
 }
 
 int lines(int type) {
@@ -23,12 +24,14 @@ int lines(int type) {
     }else if (type == 4) {
         printf("\n========================================\n");
     }
+    return 0;
 }
 
 int exit_to() {
     printf("Press any key to return to menu: ");
     char temp;
     scanf(" %c", &temp);
+    return 0;
 }
 
 int error_message(char *err) {
@@ -37,45 +40,73 @@ int error_message(char *err) {
         printf("%s\n", err);
         lines(1);
     }
+    return 0;
 }
 
 int top_bar(){
-
     clear_screen();
     lines(4);
     printf("SRI LANKA PARLIAMENTARY ELECTION SYSTEM\n");
     lines(1);
+    return 0;
+}
+
+int success_message(char *message) {
+    lines(1);
+    printf("SUCCESS: %s\n", message);
+    lines(1);
+    return 0;
+}
+
+int login_user() {
+    err = NULL;
+    char nic[20];
+    char password[20];
+    
+    top_bar();
+    printf("| LOGIN -------------------------------\n");
+    
+    printf("  Enter your NIC number: ");
+    scanf("%s", nic);
+    
+    printf("  Enter your password: ");
+    scanf("%s", password);
+    
+    lines(2);
+    printf("Login functionality not yet implemented.\n");
+    lines(3);
+    exit_to();
+    
+    return 0;
 }
 
 int register_user() {
     err = NULL;
-    //new variables
-    int exit;
     char nic[20];
     char name[100];
-    int dob , age;
-    char password[20] , confirm_password[20];
+    int dob, age;
+    char password[20], confirm_password[20];
     int section = 1;
 
     while(section != 0){
-        top_bar(); //insert top bar
+        top_bar();
         printf("| REGISTRATION -------------------------\n");
 
         if(section == 1){
             // Get user details
             printf("  Enter your name: ");
-            scanf("%s", &name);
+            scanf("%s", name);
 
             // Get NIC number & validate
             while(1){
                 error_message(err);
                 printf("  Enter your NIC number: ");
-                scanf("%s", &nic);
+                scanf("%s", nic);
                 if (strlen(nic) != 12) {
                     err = "Invalid NIC number.\nPlease enter a 12-digit NIC number.";
                     continue;
                 }else{
-                    //DOB check but,only using birth year yet
+                    // DOB check
                     printf("\n| ELIGIBILITY -------------------------\n");
                     printf("  Enter your year of birth (YYYY): ");
                     scanf("%d", &dob);
@@ -84,85 +115,124 @@ int register_user() {
                         section = 2;
                         break;
                     } else {
-                        err = "User is not eligible to register.";
+                        err = "User is not eligible to register.\nMinimum age requirement is 18 years.";
                         error_message(err);
+                        lines(3);
                         exit_to();
+                        section = 0;
                         break;
                     }
                 }
             }
         }
         else if(section == 2){
-
             lines(1);
             printf("You are eligible to register.\n");
             lines(1);
             printf("User name: %s\n", name);
             printf("NIC number: %s\n", nic);
-            lines(3);
+            printf("Age: %d years\n", age);
+            lines(1);
 
-            // password
+            // Password section
+            printf("| PASSWORD SETUP ----------------------\n");
             printf("  Enter your password: ");
             scanf("%s", password);
             printf("  Confirm your password: ");
             scanf("%s", confirm_password);
 
             if (strcmp(password, confirm_password) != 0) {
-                err = "Passwords do not match.";
+                err = "Passwords do not match.\nPlease try again.";
                 error_message(err);
-            
                 lines(1);
-                printf("Error: Password attempts exceeded. \nExiting after 1 failed tries.\n");
+                printf("Registration failed due to password mismatch.\n");
                 lines(3);
                 exit_to();
-                break;
+                section = 0;
+            } else {
+                // Registration successful
+                lines(2);
+                success_message("Registration completed successfully!");
+                printf("Welcome to the Sri Lanka Parliamentary Election System, %s!\n", name);
+                lines(3);
+                exit_to();
+                section = 0;
             }
         }
-        
     }
-        return 1;
+    return 0;
+}
+
+int vote_user() {
+    top_bar();
+    printf("| VOTING -------------------------------\n");
+    lines(2);
+    printf("Voting functionality not yet implemented.\n");
+    printf("This section will allow registered users to cast their votes.\n");
+    lines(3);
+    exit_to();
+    return 0;
+}
+
+int view_results() {
+    top_bar();
+    printf("| ELECTION RESULTS ---------------------\n");
+    lines(2);
+    printf("Results viewing functionality not yet implemented.\n");
+    printf("This section will display current election results.\n");
+    lines(3);
+    exit_to();
+    return 0;
 }
 
 int main() {
     while(1){
-        int choice , key_return = 0;
+        int choice;
+        int key_return = 0;
+        
         top_bar();
-        printf("1. Login\n");
-        printf("2. Register\n");
-        printf("3. Vote\n");
-        printf("4. View Results\n");
-        printf("0. Exit\n");
+        printf("| MAIN MENU ----------------------------\n");
+        printf("  1. Login\n");
+        printf("  2. Register\n");
+        printf("  3. Vote\n");
+        printf("  4. View Results\n");
+        printf("  0. Exit\n");
         lines(3);
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
             case 1:
-                printf("Login selected.\n");
+                login_user();
                 break;
             case 2:
                 register_user();
                 break;
-                    
             case 3:
-                printf("Vote selected.\n");
+                vote_user();
                 break;
             case 4:
-                printf("View Results selected.\n");
+                view_results();
                 break;
             case 0:
-                printf("Exiting...\n");
-                key_return = 5;
+                top_bar();
+                printf("| EXIT ---------------------------------\n");
+                lines(2);
+                printf("Thank you for using Sri Lanka Parliamentary Election System!\n");
+                printf("Goodbye!\n");
+                lines(3);
+                key_return = 1;
                 break;
             default:
-                printf("Invalid choice. Please try again.\n");
+                top_bar();
+                printf("| ERROR --------------------------------\n");
+                error_message("Invalid choice. Please select a valid option (0-4).");
+                lines(3);
+                exit_to();
                 break;
         }
        
-        if(key_return == 5){
-            lines(3);
-            printf("Successfully exited\n");
-            lines(3);
+        if(key_return == 1){
             break;
         }
     }
