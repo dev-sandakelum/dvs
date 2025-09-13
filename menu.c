@@ -103,11 +103,11 @@ int register_user() {
 
             // password
             printf("  Enter your password: ");
-            scanf("%c", password);
+            scanf("%s", password);
             printf("  Confirm your password: ");
-            scanf("%c", confirm_password);
+            scanf("%s", confirm_password);
 
-            if (password != confirm_password) {
+            if (strcmp(password, confirm_password) != 0) {
                 err = "Passwords do not match.";
                 error_message(err);
             
