@@ -13,6 +13,22 @@ int clear_screen() {
     }
     return 0;
 }
+int color_text (int color) {
+    if (color == 0) {
+        // white
+        printf("\033[0;37m");
+    }else if(color == 1){
+        // Red
+        printf("\033[0;31m");
+    }else if (color == 2) {
+        // Green    
+        printf("\033[0;32m");
+    }else if (color == 3) {
+        // Blue
+        printf("\033[0;34m");
+    } 
+    return 0;
+}        
 
 int lines(int type) {
     if(type == 1){
@@ -82,82 +98,133 @@ int login_user() {
 
 int register_user() {
     err = NULL;
-    char nic[20];
+    char nic[20] = "";
     char name[100];
-    int dob, age;
+    int dob , age ,nic_attempt = 0 ,pass_attempt = 0;
     char password[20], confirm_password[20];
-    int section = 1;
+    int section = 1 ,sec = 0;
+        // sec 0 -> name section
+        // sec 1 -> nic section
+        // sec 2 -> DOB section
+        // sec 3 -> password section
 
-    while(section != 0){
+    while(1){
         top_bar();
         printf("| REGISTRATION -------------------------\n");
 
-        if(section == 1){
-            // Get user details
+        color_text(2);
+        printf("Name: %-14s     attempt: %d/3\n", name, nic_attempt );
+        printf("NIC: %-12s          age: %d\n", nic, age );
+        color_text(0);
+        
+        lines(1);
+        if(sec == 0) {
             printf("  Enter your name: ");
-            scanf("%s", name);
+            scanf("%s", &name);
+            sec = 1;
+            continue;
+        }
 
-            // Get NIC number & validate
-            while(1){
+        
+        // Get NIC number & validate
+        if(nic_attempt < 3){
+            if(sec == 1 ){
+                color_text(1);
                 error_message(err);
+                color_text(0);
+
                 printf("  Enter your NIC number: ");
                 scanf("%s", nic);
                 if (strlen(nic) != 12) {
+                    nic_attempt++;
                     err = "Invalid NIC number.\nPlease enter a 12-digit NIC number.";
                     continue;
-                }else{
-                    // DOB check
-                    printf("\n| ELIGIBILITY -------------------------\n");
-                    printf("  Enter your year of birth (YYYY): ");
-                    scanf("%d", &dob);
-                    age = 2025 - dob;
-                    if (age >= 18) {
-                        section = 2;
-                        break;
-                    } else {
-                        err = "User is not eligible to register.\nMinimum age requirement is 18 years.";
-                        error_message(err);
-                        lines(3);
-                        exit_to();
-                        section = 0;
-                        break;
-                    }
+                }else if(strlen(nic) == 12){
+                    sec = 2;
+                    continue;
                 }
             }
+        }else{
+            exit_to();
+            break;
         }
-        else if(section == 2){
+        
+        if(sec == 2){                // DOB check
+            printf("\n| ELIGIBILITY -------------------------\n");
+            printf("  Enter your year of birth (YYYY): ");
+            scanf("%d", &dob);
+            age = 2025 - dob;
+            if (age >= 18) {
+                sec = 3;
+                nic_attempt = 0;
+                continue;
+            } else {
+                err = "User is not eligible to register.\nMinimum age requirement is 18 years.";
+                color_text(1);
+                error_message(err);
+                color_text(0);
+                lines(3);
+                exit_to();
+                section = 0;
+                break;
+            }
+        }
+                        
+        if(sec == 3){
+            color_text(2);
+            if(pass_attempt == 0){
+                err ="You are eligible to register.";
+                error_message(err);
+            }else{
+                color_text(1);
+                lines(1);
+                printf("Passwords do not match.\nPlease try again. \tattempt: %d/3\n" ,pass_attempt);
+                lines(1);
+                color_text(0);
+                
+            }
+            
+            color_text(0);
             lines(1);
-            printf("You are eligible to register.\n");
-            lines(1);
-            printf("User name: %s\n", name);
-            printf("NIC number: %s\n", nic);
-            printf("Age: %d years\n", age);
-            lines(1);
+
 
             // Password section
             printf("| PASSWORD SETUP ----------------------\n");
+
             printf("  Enter your password: ");
             scanf("%s", password);
             printf("  Confirm your password: ");
             scanf("%s", confirm_password);
-
-            if (strcmp(password, confirm_password) != 0) {
-                err = "Passwords do not match.\nPlease try again.";
-                error_message(err);
+            
+            if(pass_attempt < 4){
+                if (strcmp(password, confirm_password) != 0) {
+                    pass_attempt++;
+                    lines(1);
+                    printf("Registration failed due to password mismatch.\n");
+                    lines(3);
+                    continue;
+                } else {
+                    // Registration successful
+                    lines(2);
+                    color_text(2);
+                    success_message("Registration completed successfully!");
+                    printf("Welcome to \nThe Sri Lanka Parliamentary \nElection System, %s!\n", name);
+                    color_text(0);
+                    lines(3);
+                    exit_to();
+                    break;
+                }
+            }else{
                 lines(1);
                 printf("Registration failed due to password mismatch.\n");
-                lines(3);
+                lines(3); 
                 exit_to();
-                section = 0;
-            } else {
-                // Registration successful
-                lines(2);
-                success_message("Registration completed successfully!");
-                printf("Welcome to the Sri Lanka Parliamentary Election System, %s!\n", name);
-                lines(3);
-                exit_to();
-                section = 0;
+                break;
             }
+            
+            
+            
+            
         }
     }
     return 0;
@@ -186,6 +253,7 @@ int view_results() {
 }
 
 int main() {
+    color_text(0);
     while(1){
         int choice;
         int key_return = 0;
