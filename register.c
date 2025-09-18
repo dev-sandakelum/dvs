@@ -71,7 +71,6 @@ int register_user()
             if (age >= 18)
             {
                 sec = 3;
-                nic_attempt = 0;
                 continue;
             }
             else
@@ -82,7 +81,6 @@ int register_user()
                 color_text(0);
                 lines(3);
                 exit_to();
-                section = 0;
                 break;
             }
         }
