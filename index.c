@@ -11,12 +11,14 @@ int vote_user();
 int view_results();
 int main_menu();
 int save_user_to_file(char *nic, char *name, char *password, int age);
+int check_nic_exists(char *nic);
 
 // Global variables
 char *err;
-
+char *user[] = {NULL, NULL, NULL, NULL}; // nic, name, password, age
 
 int main() {
+    
     color_text(0);
     main_menu();
     
