@@ -1,5 +1,8 @@
 
 
+#include <stddef.h>
+
+
 int register_user()
 {
     char *err = NULL;
