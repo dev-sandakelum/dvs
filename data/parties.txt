@@ -1,0 +1,5 @@
+BP,Blue Party,Flower,Blue
+GA,Green Alliance,Elephant,Green
+RM,Red Movement,Telephone,Red
+PF,People's Front,Compass,Purple
+NU,National Unity,Key,Orange

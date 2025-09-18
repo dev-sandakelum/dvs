@@ -1,6 +1,9 @@
 
 #include <stdio.h>
 
+#include <stdio.h>
+
+
 int save_user_to_file(char *nic, char *name, char *password, int age)
 {
     FILE *file = fopen("data/users.txt", "a");
