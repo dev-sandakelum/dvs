@@ -31,7 +31,7 @@ int main_menu() {
                 top_bar();
                 printf("| EXIT ---------------------------------\n");
                 lines(2);
-                printf("Thank you for using Sri Lanka Parliamentary Election System!\n");
+                printf("Thank you for using SL Election System!\n"); 
                 printf("Goodbye!\n");
                 lines(3);
                 key_return = 1;
