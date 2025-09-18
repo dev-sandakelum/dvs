@@ -10,6 +10,7 @@ int login_user();
 int vote_user();
 int view_results();
 int main_menu();
+int save_user_to_file(char *nic, char *name, char *password, int age);
 
 // Global variables
 char *err;
@@ -27,3 +28,4 @@ int main() {
 #include "vote.c"
 #include "results.c"
 #include "menu.c"
+#include "file_handle.c"

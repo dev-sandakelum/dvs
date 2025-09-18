@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
 int clear_screen() {
     if (system("ver") == 0) {
         system("cls");

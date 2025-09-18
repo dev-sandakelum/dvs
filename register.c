@@ -127,6 +127,9 @@ int register_user()
                 }
                 else
                 {
+
+                    // Add file operations
+                    save_user_to_file(nic, name, password, age);
                     // Registration successful
                     lines(2);
                     color_text(2);
