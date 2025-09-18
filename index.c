@@ -4,11 +4,12 @@
 
 // Include .c files
 #include "fun.c"
-#include "login.c"
-#include "register.c"
-#include "vote.c"
-#include "results.c"
-#include "menu.c"
+
+int register_user();
+int login_user();
+int vote_user();
+int view_results();
+int main_menu();
 
 // Global variables
 char *err;
@@ -20,3 +21,9 @@ int main() {
     
     return 0;
 }
+
+#include "login.c"
+#include "register.c"
+#include "vote.c"
+#include "results.c"
+#include "menu.c"
