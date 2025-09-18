@@ -1,40 +1,45 @@
 
 
 #include <stddef.h>
-
+int details_section(int nic_status, char *nic, char *name, int age, int nic_attempt);
 
 int register_user()
 {
     char *err = NULL;
     char nic[20] = "";
     char name[100];
-    int dob, age, nic_attempt = 0, pass_attempt = 0;
+    int dob, age = 0, nic_attempt = 0, pass_attempt = 0, nic_status = 0;
+        // nic_status 0 -> invalid / not entered
+        // nic_status 1 -> valid
+        // nic_status -1 -> already exists
     char password[20], confirm_password[20];
-    int section = 1, sec = 0;
-    // sec 0 -> name section
-    // sec 1 -> nic section
-    // sec 2 -> DOB section
-    // sec 3 -> password section
+    int sec = 0;
+        // sec 0 -> name section
+        // sec 1 -> nic section
+        // sec 2 -> DOB section
+        // sec 3 -> password section
 
     while (1)
     {
         top_bar();
-        printf("| REGISTRATION -------------------------\n");
+        details_section(nic_status, nic, name, age, nic_attempt);
 
-        color_text(2);
-        printf("Name: %-14s     attempt: %d/3\n", name, nic_attempt);
-        printf("NIC: %-12s          age: %d\n", nic, age);
-        color_text(0);
-
-        lines(1);
+        //---------------------------------------------------------------------------------------------------
+                                        // Section 0 starts here
+        //---------------------------------------------------------------------------------------------------
         if (sec == 0)
         {
+            printf("| PERSONAL DETAILS --------------------\n");
             printf("  Enter your name: ");
             scanf("%s", &name);
             sec = 1;
             continue;
         }
 
+        //---------------------------------------------------------------------------------------------------
+                                        // Section 1 starts here
+        //---------------------------------------------------------------------------------------------------
+        
         // Get NIC number & validate
         if (nic_attempt < 3)
         {
@@ -44,19 +49,49 @@ int register_user()
                 error_message(err);
                 color_text(0);
 
+                if(nic_status == -1){
+                    lines(1);
+                    color_text(1);
+                    printf("This NIC number is already registered.\n");
+                    color_text(3);
+                    printf("      you can exit & Login.\n");
+                    printf("    1.Try again          0.Exit\n");
+                    color_text(0);
+                    lines(1);
+                    printf("Enter your choice: ");
+                    int exit_choice;
+                    scanf("%d", &exit_choice);
+                    if (exit_choice == 0)
+                    {
+                        break;
+                    }else{
+                        nic_status = 0;
+                        continue;
+                    }
+                }
                 printf("  Enter your NIC number: ");
                 scanf("%s", nic);
+                // check if NIC is 12 digits
                 if (strlen(nic) != 12)
                 {
                     nic_attempt++;
                     err = "Invalid NIC number.\nPlease enter a 12-digit NIC number.";
                     continue;
                 }
-                else if (strlen(nic) == 12)
+                // Check if NIC already exists
+                else if (check_nic_exists(nic) == 1)
                 {
-                    sec = 2;
+                    nic_attempt++;
+                    nic_status = -1;
                     continue;
                 }
+                else
+                {
+                    nic_status = 1;
+                    err = NULL;
+                }
+                sec = 2;
+                continue;
             }
         }
         else
@@ -65,9 +100,14 @@ int register_user()
             break;
         }
 
+        //---------------------------------------------------------------------------------------------------
+                                        // Section 2 starts here
+        //---------------------------------------------------------------------------------------------------
+        
+        // DOB section
         if (sec == 2)
-        { // DOB check
-            printf("\n| ELIGIBILITY -------------------------\n");
+        { 
+            printf("| ELIGIBILITY -------------------------\n");
             printf("  Enter your year of birth (YYYY): ");
             scanf("%d", &dob);
             age = 2025 - dob;
@@ -88,6 +128,11 @@ int register_user()
             }
         }
 
+        //---------------------------------------------------------------------------------------------------
+                                        // Section 3 starts here
+        //---------------------------------------------------------------------------------------------------
+        
+        // Password section
         if (sec == 3)
         {
             color_text(2);
@@ -108,8 +153,7 @@ int register_user()
             color_text(0);
             lines(1);
 
-            // Password section
-            printf("| PASSWORD SETUP ----------------------\n");
+            printf("| PASSWORD SETUP -----------------------\n");
 
             printf("  Enter your password: ");
             scanf("%s", password);
@@ -135,7 +179,11 @@ int register_user()
                     lines(2);
                     color_text(2);
                     success_message("Registration completed successfully!");
-                    printf("Welcome to \nThe Sri Lanka Parliamentary \nElection System, %s!\n", name);
+                    //----("----------------------------------------");
+                    printf("           Welcome to \n");
+                    printf("    The Sri Lanka Parliamentary \n");
+                    printf("          Election System, %s!\n", name);
+                    //----("----------------------------------------");
                     color_text(0);
                     lines(3);
                     exit_to();
@@ -153,4 +201,35 @@ int register_user()
         }
     }
     return 0;
+}
+
+int details_section(int nic_status, char *nic, char *name, int age, int nic_attempt)
+{
+    //| REGISTRATION -------------------------
+    // Name:                    attempt: 0/3
+    // NIC:                       age: 0
+    // ----------------------------------------
+
+    printf("| REGISTRATION -------------------------\n");
+
+    color_text(2);
+    printf("Name: %-14s     attempt: %d/3\n", name, nic_attempt);
+
+    // change color based on nic validity
+    printf("NIC: ");
+    if (nic_status > 0)
+    {
+        color_text(2);
+    }
+    else
+    {
+        color_text(1);
+    }
+
+    printf("%-12s", nic);
+    color_text(2);
+
+    printf("          age: %d\n", age);
+    color_text(0);
+    lines(1);
 }

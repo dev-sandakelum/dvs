@@ -13,3 +13,5 @@
 200334455667,Sandun Jayawardena,sandunPass,33,Colombo,VOTED
 199556677889,Isuru Madushan,isuru_889,21,Matara,ACTIVE
 200778899001,Pavithra Ranasinghe,pavi001,23,Galle,VOTED
+200408500925,udaya,udaya123,21
+200501302256,hasitha,gg,20
