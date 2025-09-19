@@ -1,3 +1,5 @@
+#include <stddef.h>
+
 int login_user() {
     char *err = NULL;
     char nic[20];
