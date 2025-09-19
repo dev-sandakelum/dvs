@@ -31,14 +31,4 @@ int login_user() {
 }
 
 // Main function
-int main() {
-    if (login_user()) {
-    
-        printf("Access granted to the system.\n");
-    } else {
-        printf("Access denied.\n");
-    }
-
-    return 0;
-}
 
