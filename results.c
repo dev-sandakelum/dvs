@@ -1,4 +1,6 @@
-int view_results() {
+
+int view_results()
+{
     top_bar();
     printf("| ELECTION RESULTS ---------------------\n");
     lines(2);

@@ -1,9 +1,25 @@
-int main_menu() {
+#include <stddef.h>
+
+int main_menu(char *user_nic) {
     while(1){
         int choice;
         int key_return = 0;
         
         top_bar();
+
+        // Display user NIC if logged in
+        
+        if (user_nic != NULL){
+            color_text(2);
+            printf("| USER: ");
+            printf("%s", user_nic);
+        }else{
+            color_text(1);
+            printf("Please login first");
+        }
+        
+        color_text(0);
+        lines(2);
         printf("| MAIN MENU ----------------------------\n");
         printf("  1. Login\n");
         printf("  2. Register\n");
@@ -22,7 +38,7 @@ int main_menu() {
                 register_user();
                 break;
             case 3:
-                vote_user();
+                vote_user(user_nic);
                 break;
             case 4:
                 view_results();

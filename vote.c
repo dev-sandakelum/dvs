@@ -136,7 +136,7 @@ int try_again();
 //--------------------------------------------------------------------------------------------
 //                           Main vote function starts here
 //--------------------------------------------------------------------------------------------
-int vote_user()
+int vote_user(char *user_nic)
 {
     int section = 0, d_choice, p_choice, nic_status = 1;
     // section 0 -> enter NIC
@@ -148,6 +148,15 @@ int vote_user()
     User *user;                                       // logged in user
 
     char voter_id[20];
+    if (user_nic == NULL)
+    {
+        top_bar();
+        printf("User NIC is not provided. \nPlease login first.\n");
+        lines(1);
+        exit_to();
+        return 1;
+    }
+    strcpy(voter_id, user_nic);
 
     load_users();
     load_candidates();
@@ -161,8 +170,8 @@ int vote_user()
         // --------------------------------------------------------------------------------------------
         if (section == 0)
         {
-            printf("Enter your NIC: ");
-            scanf("%s", voter_id);
+            //printf("Enter your NIC: ");
+            //scanf("%s", voter_id);
             user = find_user_by_id(voter_id);
             if (!user)
             {
@@ -192,9 +201,12 @@ int vote_user()
             if (d_choice < 1 || d_choice > district_count)
             {
                 printf("Invalid district.\n");
-                if(try_again() == 1){
+                if (try_again() == 1)
+                {
                     return 1;
-                }else{
+                }
+                else
+                {
                     continue;
                 }
             }
@@ -216,9 +228,12 @@ int vote_user()
             {
                 printf("Invalid party.\n");
 
-                if(try_again() == 1){
+                if (try_again() == 1)
+                {
                     return 1;
-                }else{
+                }
+                else
+                {
                     continue;
                 }
             }
@@ -282,13 +297,12 @@ int vote_user()
 
 void voter_details_section(int nic_status, char *nic, char *name, char *district, char *party)
 {
-    //| ---------------------------------------
+    //-----------------------------------------
     // Name:                   district:
     // NIC:                       party:
     // ----------------------------------------
 
-    printf("| ---------------------------------------\n");
-
+    lines(1);
     color_text(2);
     printf("Name: %-14s   district: %s\n", name, district);
 
@@ -343,4 +357,3 @@ char *find_candidate_name(const char *id)
     }
     return "";
 }
-
