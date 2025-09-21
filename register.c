@@ -1,7 +1,7 @@
 
 
 #include <stddef.h>
-int details_section(int nic_status, char *nic, char *name, int age, int nic_attempt);
+void details_section(int nic_status, char *nic, char *name, int age, int nic_attempt);
 
 int register_user()
 {
@@ -131,7 +131,6 @@ int register_user()
         //---------------------------------------------------------------------------------------------------
                                         // Section 3 starts here
         //---------------------------------------------------------------------------------------------------
-        
         // Password section
         if (sec == 3)
         {
@@ -203,7 +202,7 @@ int register_user()
     return 0;
 }
 
-int details_section(int nic_status, char *nic, char *name, int age, int nic_attempt)
+void details_section(int nic_status, char *nic, char *name, int age, int nic_attempt)
 {
     //| REGISTRATION -------------------------
     // Name:                    attempt: 0/3

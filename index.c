@@ -6,7 +6,7 @@
 #include "fun.c"
 
 int register_user();
-int login_user();
+//int login_user();
 int vote_user();
 int view_results();
 int main_menu();
@@ -26,7 +26,7 @@ int main() {
     return 0;
 }
 
-#include "login.c"
+//#include "login.c"
 #include "register.c"
 #include "vote.c"
 #include "results.c"
