@@ -129,7 +129,8 @@ void show_candidates(const char *party, const char *district)
     color_text(0);
 }
 void voter_details_section(int nic_status, char *nic, char *name, char *district, char *party);
-void voted_details_section(const char *district, const char *party,const char *ids[3], const char *names[3]);
+char *find_candidate_name(const char *id);
+void voted_details_section(const char *district, const char *party, const char *ids[3], const char *names[3]);
 
 //--------------------------------------------------------------------------------------------
 //                           Main vote function starts here
@@ -248,8 +249,12 @@ int vote_user()
             fprintf(f, "%s,%s,%s|%s|%s,%s\n", voter_id, userName, vote1, vote2, vote3, district);
             fclose(f);
 
+            // complex function to show voted details --------------------------------------------------------
+            voted_details_section(district, party, (const char *[3]){vote1, vote2, vote3}, (const char *[3]){
+                find_candidate_name(vote1), find_candidate_name(vote2), find_candidate_name(vote3)
+            });
+            // end of complex function ------------------------------------------------------------------------
 
-            voted_details_section(district, party, (const char *[3]){vote1, vote2, vote3}, (const char *[3]){"", "", ""});
             // Update user status to VOTED
             user->status[0] = 'V'; // 'V' means VOTED
             lines(1);
@@ -298,7 +303,7 @@ void voter_details_section(int nic_status, char *nic, char *name, char *district
     lines(1);
 }
 
-void voted_details_section(const char *district, const char *party,const char *ids[3], const char *names[3])
+void voted_details_section(const char *district, const char *party, const char *ids[3], const char *names[3])
 {
     //| YOUR VOTED DETAILS --------------------
     // district:  <district_name>          party: <party_name>
@@ -309,7 +314,7 @@ void voted_details_section(const char *district, const char *party,const char *i
 
     printf("| YOUR VOTED DETAILS --------------------\n");
 
-    color_text(2); 
+    color_text(2);
     printf("district: %-18s party: %s\n", district, party);
 
     for (int i = 0; i < 3; i++)
@@ -317,6 +322,15 @@ void voted_details_section(const char *district, const char *party,const char *i
         printf("  %-10s - %s\n", ids[i], names[i]);
     }
 
-    color_text(0); 
+    color_text(0);
     printf("-----------------------------------------\n");
+}
+char *find_candidate_name(const char *id)
+{
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (strcmp(candidates[i].id, id) == 0)
+            return candidates[i].name;
+    }
+    return "";
 }
