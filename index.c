@@ -12,6 +12,7 @@ int view_results();
 int main_menu();
 int save_user_to_file(char *nic, char *name, char *password, int age);
 int check_nic_exists(char *nic);
+char *find_nic(char *nic);
 
 // Global variables
 char *err;
