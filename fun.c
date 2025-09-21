@@ -42,15 +42,9 @@ int lines(int type) {
 }
 
 int exit_to() {
-    printf("Press any key to return to menu: ");
-    //char temp;
-    //scanf(" %c", &temp);
-
-    if(system("ver") == 0){
-        _getch();
-    }else{
-        getchar();
-    }
+    printf("type something and \nPress any key to return to menu: ");
+    char temp;
+    scanf(" %c", &temp);
     return 0;
 }
 
