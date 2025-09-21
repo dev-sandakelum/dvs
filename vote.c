@@ -129,6 +129,8 @@ void show_candidates(const char *party, const char *district)
     color_text(0);
 }
 void voter_details_section(int nic_status, char *nic, char *name, char *district, char *party);
+void voted_details_section(const char *district, const char *party,const char *ids[3], const char *names[3]);
+
 //--------------------------------------------------------------------------------------------
 //                           Main vote function starts here
 //--------------------------------------------------------------------------------------------
@@ -246,8 +248,10 @@ int vote_user()
             fprintf(f, "%s,%s,%s|%s|%s,%s\n", voter_id, userName, vote1, vote2, vote3, district);
             fclose(f);
 
+
+            voted_details_section(district, party, (const char *[3]){vote1, vote2, vote3}, (const char *[3]){"", "", ""});
             // Update user status to VOTED
-            user->status[0] = 'V';
+            user->status[0] = 'V'; // 'V' means VOTED
             lines(1);
             color_text(2);
             printf("Vote declared successfully!\n");
@@ -288,8 +292,31 @@ void voter_details_section(int nic_status, char *nic, char *name, char *district
     printf("%-12s", nic);
     color_text(2);
 
-    printf("   party: %s\n", party);
+    printf("      party: %s\n", party);
     color_text(0);
 
     lines(1);
+}
+
+void voted_details_section(const char *district, const char *party,const char *ids[3], const char *names[3])
+{
+    //| YOUR VOTED DETAILS --------------------
+    // district:  <district_name>          party: <party_name>
+    //   <candidate_id> - <candidate_name>
+    //   <candidate_id> - <candidate_name>
+    //   <candidate_id> - <candidate_name>
+    // ----------------------------------------
+
+    printf("| YOUR VOTED DETAILS --------------------\n");
+
+    color_text(2); 
+    printf("district: %-18s party: %s\n", district, party);
+
+    for (int i = 0; i < 3; i++)
+    {
+        printf("  %-10s - %s\n", ids[i], names[i]);
+    }
+
+    color_text(0); 
+    printf("-----------------------------------------\n");
 }
