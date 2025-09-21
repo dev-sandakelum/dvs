@@ -117,7 +117,8 @@ void show_parties()
 
 void show_candidates(const char *party, const char *district)
 {
-    printf("Candidates for party %s in district %s:\n", party, district);
+    // printf("Candidates for party %s in district %s:\n", party, district);
+    printf("Candidates:\n");
     lines(1);
     color_text(3);
     for (int i = 0; i < candidate_count; i++)
@@ -127,19 +128,20 @@ void show_candidates(const char *party, const char *district)
     }
     color_text(0);
 }
+void voter_details_section(int nic_status, char *nic, char *name, char *district, char *party);
 //--------------------------------------------------------------------------------------------
 //                           Main vote function starts here
 //--------------------------------------------------------------------------------------------
 int vote_user()
 {
-    int section = 0, d_choice, p_choice;
+    int section = 0, d_choice, p_choice, nic_status = 1;
     // section 0 -> enter NIC
     // section 1 -> select district
     // section 2 -> select party
     // section 3 -> select candidates
-    char *district, *party, *userName;    // section 1 & 2 choices
-    char vote1[10], vote2[10], vote3[10]; // candidate IDs for section 4
-    User *user;                           // logged in user
+    char *district = "", *party = "", *userName = ""; // section 1 & 2 choices
+    char vote1[10], vote2[10], vote3[10];             // candidate IDs for section 4
+    User *user;                                       // logged in user
 
     char voter_id[20];
 
@@ -148,6 +150,7 @@ int vote_user()
     while (1)
     {
         top_bar(); // from fun.c
+        voter_details_section(nic_status, voter_id, userName, district, party);
         // --------------------------------------------------------------------------------------------
         //                           Section control starts here
         //                                      section 0
@@ -216,7 +219,10 @@ int vote_user()
         {
             show_candidates(party, district);
             lines(1);
-            printf("Enter your 3 candidate Votes (IDs, same party):\n");
+            printf("Enter your 3 candidate votes:\n");
+            printf("  - Use candidate IDs\n");
+            printf("  - All must be from the same party\n");
+            lines(1);
             printf("Vote 1: ");
             scanf("%s", vote1);
             printf("Vote 2: ");
@@ -254,4 +260,36 @@ int vote_user()
     printf("Exiting vote function.\n");
     exit_to();
     return 0;
+}
+
+void voter_details_section(int nic_status, char *nic, char *name, char *district, char *party)
+{
+    //| ---------------------------------------
+    // Name:                   district:
+    // NIC:                       party:
+    // ----------------------------------------
+
+    printf("| ---------------------------------------\n");
+
+    color_text(2);
+    printf("Name: %-14s   district: %s\n", name, district);
+
+    // change color based on nic validity
+    printf("NIC: ");
+    if (nic_status > 0)
+    {
+        color_text(2);
+    }
+    else
+    {
+        color_text(1);
+    }
+
+    printf("%-12s", nic);
+    color_text(2);
+
+    printf("   party: %s\n", party);
+    color_text(0);
+
+    lines(1);
 }
