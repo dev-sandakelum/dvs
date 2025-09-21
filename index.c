@@ -9,19 +9,20 @@ int register_user();
 //int login_user();
 int vote_user();
 int view_results();
-int main_menu();
+int main_menu(char *user_nic);
 int save_user_to_file(char *nic, char *name, char *password, int age);
 int check_nic_exists(char *nic);
 char *find_nic(char *nic);
 
 // Global variables
 char *err;
-char *user[] = {NULL, NULL, NULL, NULL}; // nic, name, password, age
+char *user[] = {"200334455667", NULL, NULL, NULL}; // nic, name, password, age
 
 int main() {
     
     color_text(0);
-    main_menu();
+    //printf("%s" , user[0]);
+    main_menu(user[0]);
     
     return 0;
 }
