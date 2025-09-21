@@ -131,6 +131,7 @@ void show_candidates(const char *party, const char *district)
 void voter_details_section(int nic_status, char *nic, char *name, char *district, char *party);
 char *find_candidate_name(const char *id);
 void voted_details_section(const char *district, const char *party, const char *ids[3], const char *names[3]);
+int try_again();
 
 //--------------------------------------------------------------------------------------------
 //                           Main vote function starts here
@@ -166,6 +167,7 @@ int vote_user()
             if (!user)
             {
                 printf("User not found.\n");
+                exit_to();
                 return 1;
             }
             userName = user->name;
@@ -190,7 +192,11 @@ int vote_user()
             if (d_choice < 1 || d_choice > district_count)
             {
                 printf("Invalid district.\n");
-                return 1;
+                if(try_again() == 1){
+                    return 1;
+                }else{
+                    continue;
+                }
             }
             district = districts[d_choice - 1];
             section = 3;
@@ -209,7 +215,12 @@ int vote_user()
             if (p_choice < 1 || p_choice > party_count)
             {
                 printf("Invalid party.\n");
-                return 1;
+
+                if(try_again() == 1){
+                    return 1;
+                }else{
+                    continue;
+                }
             }
             party = parties[p_choice - 1]; // assign selected party
             section = 4;
@@ -250,9 +261,7 @@ int vote_user()
             fclose(f);
 
             // complex function to show voted details --------------------------------------------------------
-            voted_details_section(district, party, (const char *[3]){vote1, vote2, vote3}, (const char *[3]){
-                find_candidate_name(vote1), find_candidate_name(vote2), find_candidate_name(vote3)
-            });
+            voted_details_section(district, party, (const char *[3]){vote1, vote2, vote3}, (const char *[3]){find_candidate_name(vote1), find_candidate_name(vote2), find_candidate_name(vote3)});
             // end of complex function ------------------------------------------------------------------------
 
             // Update user status to VOTED
@@ -306,7 +315,7 @@ void voter_details_section(int nic_status, char *nic, char *name, char *district
 void voted_details_section(const char *district, const char *party, const char *ids[3], const char *names[3])
 {
     //| YOUR VOTED DETAILS --------------------
-    // district:           party: 
+    // district:           party:
     //   <candidate_id> - <candidate_name>
     //   <candidate_id> - <candidate_name>
     //   <candidate_id> - <candidate_name>
@@ -334,3 +343,4 @@ char *find_candidate_name(const char *id)
     }
     return "";
 }
+

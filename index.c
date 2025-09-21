@@ -3,7 +3,7 @@
 #include <string.h>
 
 // Include .c files
-#include "fun.c"
+#include "fun.h" // common functions
 
 int register_user();
 //int login_user();
