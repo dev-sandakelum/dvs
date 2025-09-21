@@ -306,7 +306,7 @@ void voter_details_section(int nic_status, char *nic, char *name, char *district
 void voted_details_section(const char *district, const char *party, const char *ids[3], const char *names[3])
 {
     //| YOUR VOTED DETAILS --------------------
-    // district:  <district_name>          party: <party_name>
+    // district:           party: 
     //   <candidate_id> - <candidate_name>
     //   <candidate_id> - <candidate_name>
     //   <candidate_id> - <candidate_name>
@@ -314,7 +314,7 @@ void voted_details_section(const char *district, const char *party, const char *
 
     printf("| YOUR VOTED DETAILS --------------------\n");
 
-    color_text(2);
+    color_text(3);
     printf("district: %-18s party: %s\n", district, party);
 
     for (int i = 0; i < 3; i++)
