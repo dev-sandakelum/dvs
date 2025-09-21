@@ -1,3 +1,6 @@
+#ifndef FUN_H
+#define FUN_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -42,7 +45,7 @@ int lines(int type) {
 }
 
 int exit_to() {
-    printf("Press any key to return to menu: ");
+    printf("type something and \nPress any key to return to menu: ");
     char temp;
     scanf(" %c", &temp);
     return 0;
@@ -71,3 +74,20 @@ int success_message(char *message) {
     lines(1);
     return 0;
 }
+
+int try_again()
+{
+    lines(1);
+    printf("are you want to try again? \n\t(1.Yes 0.No): ");
+    int try_again;
+    scanf("%d", &try_again);
+    if (try_again == 1)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
+#endif

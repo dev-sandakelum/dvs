@@ -16,7 +16,7 @@ int main_menu() {
 
         switch (choice) {
             case 1:
-                login_user();
+                //login_user();
                 break;
             case 2:
                 register_user();

@@ -3,10 +3,10 @@
 #include <string.h>
 
 // Include .c files
-#include "fun.c"
+#include "fun.h" // common functions
 
 int register_user();
-int login_user();
+//int login_user();
 int vote_user();
 int view_results();
 int main_menu();
@@ -26,7 +26,7 @@ int main() {
     return 0;
 }
 
-#include "login.c"
+//#include "login.c"
 #include "register.c"
 #include "vote.c"
 #include "results.c"
