@@ -1,34 +1,45 @@
-#include <stdio.h>
-#include <string.h>
-
-
-int login_user() {
+#include <stddef.h>
+int login_user(){
     char nic[20];
     char password[20];
     int attempts = 3;
 
     while (attempts > 0) {
-        top_bar();
+        //top_bar();
         printf("| USER LOGIN -------------------------\n");
 
-        color_text(2);
-        printf("Enter NIC Numer: %s",nic);
-        printf("Enter Password: %s",password);
-        color_text(0);
+        printf("Enter NIC Number: ");
+        scanf("%s", nic);
+        printf("Enter Password: ");
+        scanf("%s", password);
 
+        char *user_details = find_nic(nic);
         
-        if (strcmp(nic, "123456789123") == 0 && strcmp(password, "pass123") == 0) {
-            printf("\nLogin successful! Welcome, %s.\n", nic);
-            return 1;
-        } else {
-            attempts--;
-            printf("\nIncorrect username or password. You have %d attempts remaining.\n", attempts);
-        }
-    }
+        printf("%s", user_details); // Debugging line to see the fetched details
 
+        if (user_details == NULL) {
+            printf("\nNIC number not found\n");
+            attempts--;
+            continue;
+        } else {
+            char *nic = strtok(user_details, ",");
+            char *name = strtok(NULL, ",");
+            char *stored_password = strtok(NULL, ",");
+
+            printf("\nLogin successful! Welcome, %s.\n", name);
+
+            if (strcmp(stored_password, password) == 0) {
+                printf("\nPassword is correct.\n");
+                exit_to();
+            } else {
+                printf("\nIncorrect password. Please try again.\n");
+                attempts--;
+                continue;
+            }
+        }
+        exit_to();
+        break;
+    }
     printf("\nToo many failed attempts. Exiting.\n");
     return 0;
-}
-
-// Main function
 

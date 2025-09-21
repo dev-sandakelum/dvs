@@ -1,5 +1,5 @@
 001,Amal Liyanage,BP,1
-002,Saman Rathnayake,BP,2
+002,Saman Rathnayake,BP,22
 003,Dilshan Kumara,BP,3
 004,Chamara Wickrama,BP,4
 005,Ruwan Jayasekara,BP,5
@@ -9,7 +9,7 @@
 009,Thilak Silva,GA,4
 010,Pradeep Fernando,GA,5
 011,Kasun Mendis,RM,1
-012,Nimali Dissanayake,RM,2
+012,Nimali Dissanayake,RM,
 013,Priyanka Weerasinghe,RM,3
 014,Sanjeewa Rodrigo,RM,4
 015,Lakmal Jayawardena,RM,5

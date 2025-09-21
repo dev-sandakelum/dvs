@@ -17,6 +17,6 @@ if errorlevel 1 (
 echo ------------------------------------------
 echo Running %output%...
 echo ------------------------------------------
-%output%
+
 
 pause
