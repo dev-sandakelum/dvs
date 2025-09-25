@@ -170,8 +170,8 @@ int vote_user(char *user_nic)
         // --------------------------------------------------------------------------------------------
         if (section == 0)
         {
-            //printf("Enter your NIC: ");
-            //scanf("%s", voter_id);
+            // printf("Enter your NIC: ");
+            // scanf("%s", voter_id);
             user = find_user_by_id(voter_id);
             if (!user)
             {
@@ -200,6 +200,25 @@ int vote_user(char *user_nic)
             scanf("%d", &d_choice);
             if (d_choice < 1 || d_choice > district_count)
             {
+                lines(1);
+                printf("Invalid district.\n");
+                if (try_again() == 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            if (d_choice != 2 && d_choice > 0 && d_choice <= 8)
+            {
+                color_text(3);
+                lines(1);
+                printf("District boundaries matter.\n");
+                lines(1);
+                color_text(0);
+
                 printf("Invalid district.\n");
                 if (try_again() == 1)
                 {
@@ -341,7 +360,7 @@ void voted_details_section(const char *district, const char *party, const char *
     printf("district: %-18s party: %s\n", district, party);
 
     for (int i = 0; i < 3; i++)
-    {
+    { 
         printf("  %-10s - %s\n", ids[i], names[i]);
     }
 

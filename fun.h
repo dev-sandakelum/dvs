@@ -25,9 +25,18 @@ int color_text (int color) {
         // Green    
         printf("\033[0;32m");
     }else if (color == 3) {
-        // Blue
+        // magenta
+        printf("\033[0;35m");
+    }else if (color == 4) {
+        // blue
         printf("\033[0;34m");
-    } 
+    }else if (color == 5) {
+        // yellow
+        printf("\033[0;33m");
+    }else if (color == 6) {
+        // cyan
+        printf("\033[0;36m");
+    }
     return 0;
 }   
 
@@ -48,6 +57,14 @@ int exit_to() {
     printf("type something and \nPress any key to return to menu: ");
     char temp;
     scanf(" %c", &temp);
+    return 0;
+}
+int exit_from_0(char input, char check_char) {
+    lines(1);
+    if(input == 0 || check_char == '0') {
+        exit_to();
+        return 1;
+    }
     return 0;
 }
 
@@ -88,6 +105,23 @@ int try_again()
     else
     {
         return 1;
+    }
+}
+
+char *get_party_by_num(int party_num) {
+    switch (party_num) {
+        case 1:
+            return "BP";
+        case 2:
+            return "GA";
+        case 3:
+            return "RM";
+        case 4:
+            return "PF";
+        case 5:
+            return "NU";
+        default:
+            return "Unknown";
     }
 }
 #endif

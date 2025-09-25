@@ -10,7 +10,8 @@ int register_user();
 int vote_user();
 int view_results();
 int main_menu(char *user_nic);
-int save_user_to_file(char *nic, char *name, char *password, int age);
+int save_user_as_voter(char *nic, char *name, char *password, int age );
+int save_user_as_candidate(char *nic, char *name, char *password, int age , int district, int party);
 int check_nic_exists(char *nic);
 char *find_nic(char *nic);
 

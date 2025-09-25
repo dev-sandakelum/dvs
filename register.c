@@ -1,5 +1,3 @@
-
-
 #include <stddef.h>
 void details_section(int nic_status, char *nic, char *name, int age, int nic_attempt);
 
@@ -8,16 +6,31 @@ int register_user()
     char *err = NULL;
     char nic[20] = "";
     char name[100];
-    int dob, age = 0, nic_attempt = 0, pass_attempt = 0, nic_status = 0;
-        // nic_status 0 -> invalid / not entered
-        // nic_status 1 -> valid
-        // nic_status -1 -> already exists
+    int dob, age = 0, nic_attempt = 0, pass_attempt = 0, nic_status = 0, register_as, party = 0, district = 0;
+    // nic_status 0 -> invalid / not entered
+    // nic_status 1 -> valid
+    // nic_status -1 -> already exists
+    //          ------
+    // register_as 0 -> voter
+    // register_as 1 -> candidate
+    //          ------
+    // party 1 -> BP -> blue party
+    // party 2 -> GA -> green alliance
+    // party 3 -> RM -> red movement
+    // party 4 -> PF -> people's front
+    // party 5 -> NU -> national unity
+    //          ------
+    // district 1 -> Mathara
     char password[20], confirm_password[20];
-    int sec = 0;
-        // sec 0 -> name section
-        // sec 1 -> nic section
-        // sec 2 -> DOB section
-        // sec 3 -> password section
+    int sec = 4;
+    // sec 4 -> registration type section (future use)
+    // sec 5 -> district section (candidate only)
+    // sec 6 -> party section (candidate only)
+    //         ------
+    // sec 0 -> name section
+    // sec 1 -> nic section
+    // sec 2 -> DOB section
+    // sec 3 -> password section
 
     while (1)
     {
@@ -25,21 +38,111 @@ int register_user()
         details_section(nic_status, nic, name, age, nic_attempt);
 
         //---------------------------------------------------------------------------------------------------
-                                        // Section 0 starts here
+        // Section 4 starts here
+        //---------------------------------------------------------------------------------------------------
+        if (sec == 4)
+        {
+            // Registration type section (future use)
+            printf("| REGISTRATION TYPE -------------------\n");
+            printf("  Register as:\n");
+            color_text(3);
+            printf("    1. Voter\n");
+            printf("    2. Candidate\n");
+            color_text(0);
+            lines(1);
+            color_text(1);
+            error_message(err);
+            color_text(0);
+            printf("Enter your choice: ");
+            scanf("%d", &register_as);
+            if (exit_from_0(register_as, 0)) {
+                break;
+            }
+            if (register_as < 3 && register_as > 0)
+            {
+                sec = (register_as == 1) ? 0 : 5;
+                err = NULL;
+                continue;
+            }
+            else
+            {
+                err = "Invalid choice entered. \nPlease select 1 or 2.";
+                continue;
+            }
+        }
+        //---------------------------------------------------------------------------------------------------
+        // Section 5 starts here
+        //---------------------------------------------------------------------------------------------------
+        if (sec == 5)
+        {
+            // District section (candidate only)
+            printf("| DISTRICT ----------------------------\n");
+            printf("  Districts:\n");
+            color_text(3);
+            printf("    1. Mathara\n");
+            color_text(0);
+            lines(1);
+            printf("  Enter your district: ");
+            scanf("%d", &district);
+            if (exit_from_0(district, 0)) {
+                break;
+            }
+            if (district != 1)
+            {
+                err = "Invalid choice entered. \nPlease select a valid district.";
+                continue;
+            }
+            sec = 6;
+            continue;
+        }
+        //---------------------------------------------------------------------------------------------------
+        // Section 6 starts here
+        //---------------------------------------------------------------------------------------------------
+        if (sec == 6)
+        {
+            // Party section (candidate only)
+            printf("| PARTY -------------------------------\n");
+            printf("  Enter your party (1-5):\n");
+            color_text(4); printf("    1. BP -> blue party\n");
+            color_text(2); printf("    2. GA -> green alliance\n");
+            color_text(1); printf("    3. RM -> red movement\n");
+            color_text(5); printf("    4. PF -> people's front\n");
+            color_text(3); printf("    5. NU -> national unity\n");
+            color_text(0);
+            lines(1);
+            printf("  Your choice: ");
+            scanf("%d", &party);
+            if (exit_from_0(party, 0)) {
+                break;
+            }
+            if (party < 1 || party > 5)
+            {
+                err = "Invalid choice entered. \nPlease select a valid party.";
+                continue;
+            }
+            sec = 0;
+            continue;
+        }
+
+        //---------------------------------------------------------------------------------------------------
+        // Section 0 starts here
         //---------------------------------------------------------------------------------------------------
         if (sec == 0)
         {
             printf("| PERSONAL DETAILS --------------------\n");
             printf("  Enter your name: ");
             scanf("%s", &name);
+            if (exit_from_0(1,*name)) {
+                break;
+            }
             sec = 1;
             continue;
         }
 
         //---------------------------------------------------------------------------------------------------
-                                        // Section 1 starts here
+        // Section 1 starts here
         //---------------------------------------------------------------------------------------------------
-        
+
         // Get NIC number & validate
         if (nic_attempt < 3)
         {
@@ -49,7 +152,8 @@ int register_user()
                 error_message(err);
                 color_text(0);
 
-                if(nic_status == -1){
+                if (nic_status == -1)
+                {
                     lines(1);
                     color_text(1);
                     printf("This NIC number is already registered.\n");
@@ -64,13 +168,18 @@ int register_user()
                     if (exit_choice == 0)
                     {
                         break;
-                    }else{
+                    }
+                    else
+                    {
                         nic_status = 0;
                         continue;
                     }
                 }
                 printf("  Enter your NIC number: ");
                 scanf("%s", nic);
+                if (exit_from_0(1,*nic)) {
+                    break;
+                }
                 // check if NIC is 12 digits
                 if (strlen(nic) != 12)
                 {
@@ -101,15 +210,18 @@ int register_user()
         }
 
         //---------------------------------------------------------------------------------------------------
-                                        // Section 2 starts here
+        // Section 2 starts here
         //---------------------------------------------------------------------------------------------------
-        
+
         // DOB section
         if (sec == 2)
-        { 
+        {
             printf("| ELIGIBILITY -------------------------\n");
             printf("  Enter your year of birth (YYYY): ");
             scanf("%d", &dob);
+            if (exit_from_0(dob, 0)) {
+                break;
+            }
             age = 2025 - dob;
             if (age >= 18)
             {
@@ -129,7 +241,7 @@ int register_user()
         }
 
         //---------------------------------------------------------------------------------------------------
-                                        // Section 3 starts here
+        // Section 3 starts here
         //---------------------------------------------------------------------------------------------------
         // Password section
         if (sec == 3)
@@ -156,13 +268,16 @@ int register_user()
 
             printf("  Enter your password: ");
             scanf("%s", password);
+            if (exit_from_0(1,*password)) {
+                break;
+            }
             printf("  Confirm your password: ");
             scanf("%s", confirm_password);
 
             if (pass_attempt < 4)
             {
                 if (strcmp(password, confirm_password) != 0)
-                {
+                {   
                     pass_attempt++;
                     lines(1);
                     printf("Registration failed due to password mismatch.\n");
@@ -172,8 +287,28 @@ int register_user()
                 else
                 {
 
-                    // Add file operations
-                    save_user_to_file(nic, name, password, age);
+                    // file operations
+                    // file operations
+                    int save_result = 0;
+                    if (register_as == 1)
+                    {
+                        save_result = save_user_as_candidate(nic, name, password, age, district, party);
+                        if (save_result == 0)
+                        { // 0 means failure
+                            printf("Failed to save candidate data!\n");
+                            // Handle error
+                        }
+                    }
+                    else
+                    {
+                        save_result = save_user_as_voter(nic, name, password, age);
+                        if (save_result == 0)
+                        { // 0 means failure
+                            printf("Failed to save voter data!\n");
+                            // Handle error
+                        }
+                    }
+
                     // Registration successful
                     lines(2);
                     color_text(2);
