@@ -128,10 +128,14 @@ void show_candidates(const char *party, const char *district)
     }
     color_text(0);
 }
+// ----------------------------------------------------------------------------------------------------
+//                           Function declarations - from bottom
+// ----------------------------------------------------------------------------------------------------
 void voter_details_section(int nic_status, char *nic, char *name, char *district, char *party);
 char *find_candidate_name(const char *id);
 void voted_details_section(const char *district, const char *party, const char *ids[3], const char *names[3]);
 int try_again();
+int is_candidate_in_party(const char *candidate_id, const char *party);
 
 //--------------------------------------------------------------------------------------------
 //                           Main vote function starts here
@@ -285,6 +289,21 @@ int vote_user(char *user_nic)
         // --------------------------------------------------------------------------------------------
         if (section == 5)
         {
+            //filter votes
+            if (!is_candidate_in_party(vote1, party) || !is_candidate_in_party(vote2, party) || !is_candidate_in_party(vote3, party)) {
+                lines(1);
+                printf("All votes must be for candidates\n");
+                printf("      the selected party (%s).\n", party);
+                if (try_again() == 1)
+                {
+                    return 1;
+                }
+                else
+                {
+                    section = 4; // go back to candidate selection
+                    continue;
+                }
+            }
             FILE *f = fopen("data/votes.txt", "a");
             if (!f)
             {
@@ -360,7 +379,7 @@ void voted_details_section(const char *district, const char *party, const char *
     printf("district: %-18s party: %s\n", district, party);
 
     for (int i = 0; i < 3; i++)
-    { 
+    {       
         printf("  %-10s - %s\n", ids[i], names[i]);
     }
 
@@ -375,4 +394,13 @@ char *find_candidate_name(const char *id)
             return candidates[i].name;
     }
     return "";
+}
+
+int is_candidate_in_party(const char *candidate_id, const char *party) {
+    for (int i = 0; i < candidate_count; i++) {
+        if (strcmp(candidates[i].id, candidate_id) == 0 && strcmp(candidates[i].party, party) == 0) {
+            return 1;
+        }
+    }
+    return 0;
 }
