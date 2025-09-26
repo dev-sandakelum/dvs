@@ -5,6 +5,8 @@
 // Include .c files
 #include "fun.h" // common functions
 
+int instructions();
+int welcome_screen();
 int register_user();
 //int login_user();
 int vote_user();
@@ -23,12 +25,14 @@ int main() {
     
     color_text(0);
     //printf("%s" , user[0]);
+    welcome_screen();
     main_menu(user[0]);
     
     return 0;
 }
 
 //#include "login.c"
+#include "welcome.c"
 #include "register.c"
 #include "vote.c"
 #include "results.c"

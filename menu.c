@@ -25,6 +25,7 @@ int main_menu(char *user_nic) {
         printf("  2. Register\n");
         printf("  3. Vote\n");
         printf("  4. View Results\n");
+        printf("  5. Instructions\n");
         printf("  0. Exit\n");
         lines(3);
         printf("Enter your choice: ");
@@ -42,6 +43,9 @@ int main_menu(char *user_nic) {
                 break;
             case 4:
                 view_results();
+                break;
+            case 5:
+                instructions();
                 break;
             case 0:
                 top_bar();
