@@ -5,12 +5,15 @@
 // Include .c files
 #include "fun.h" // common functions
 
+int instructions();
+int welcome_screen();
 int register_user();
 //int login_user();
 int vote_user();
 int view_results();
 int main_menu(char *user_nic);
-int save_user_to_file(char *nic, char *name, char *password, int age);
+int save_user_as_voter(char *nic, char *name, char *password, int age );
+int save_user_as_candidate(char *nic, char *name, char *password, int age , int district, int party);
 int check_nic_exists(char *nic);
 char *find_nic(char *nic);
 
@@ -22,12 +25,14 @@ int main() {
     
     color_text(0);
     //printf("%s" , user[0]);
+    welcome_screen();
     main_menu(user[0]);
     
     return 0;
 }
 
 //#include "login.c"
+#include "welcome.c"
 #include "register.c"
 #include "vote.c"
 #include "results.c"
