@@ -20,8 +20,11 @@ typedef struct
 
 typedef struct
 {
-    char id[10];
+    int id;
+    int nic[12];
     char name[50];
+    char password[30];
+    int age;
     char party[10];
     int party_no;
 } Candidate;
@@ -37,6 +40,9 @@ int candidate_count = 0;
 
 User users[MAX_USERS];
 int user_count = 0;
+
+int primary_color = 0;
+int party_color[MAX_PARTY];
 
 // ----------------------------------------------------------------------------------------------------
 //                           Function declarations - file handling
@@ -77,7 +83,8 @@ void load_candidates()
     while (fgets(line, sizeof(line), f))
     {
         Candidate c;
-        sscanf(line, "%[^,],%[^,],%[^,],%d", c.id, c.name, c.party, &c.party_no);
+        // sscanf(line, "%[^,],%[^,],%[^,],%d", c.id, c.name, c.party, &c.party_no);
+        sscanf(line, "%d,%[^,],%[^,],%[^,],%d,%[^,],%d", &c.id, c.nic, c.name, c.password, &c.age, &c.party, &c.party_no);
         candidates[candidate_count++] = c;
         int found = 0;
         for (int i = 0; i < party_count; i++)
@@ -111,20 +118,55 @@ void show_parties()
     printf("Parties:\n");
     color_text(3);
     for (int i = 0; i < party_count; i++)
-        printf("%d. %s\n", i + 1, parties[i]);
+    {
+        // BP,Blue Party,Flower,Blue
+        // GA,Green Alliance,Elephant,Green
+        // RM,Red Movement,Telephone,Red
+        // PF,People's Front,Compass,Purple
+        // NU,National Unity,Key,Orange
+
+        switch (parties[i][0])
+        {
+        case 'B':
+            color_text(4);
+            printf("%d. %s - Blue Party\n", i + 1, parties[i]);
+            party_color[i] = 4;
+            break;
+        case 'G':
+            color_text(2);
+            printf("%d. %s - Green Alliance\n", i + 1, parties[i]);
+            party_color[i] = 2;
+            break;
+        case 'R':
+            color_text(1);
+            printf("%d. %s - Red Movement\n", i + 1, parties[i]);
+            party_color[i] = 1;
+            break;
+        case 'P':
+            color_text(5);
+            printf("%d. %s - People's Front\n", i + 1, parties[i]);
+            party_color[i] = 5;
+            break;
+        case 'N':
+            color_text(3);
+            printf("%d. %s - National Unity\n", i + 1, parties[i]);
+            party_color[i] = 3;
+            break;
+        }
+    }
     color_text(0);
 }
 
-void show_candidates(const char *party, const char *district)
+void show_candidates(const char *party, const char *district ,int p_choice)
 {
     // printf("Candidates for party %s in district %s:\n", party, district);
     printf("Candidates:\n");
     lines(1);
-    color_text(3);
+    color_text(party_color[--p_choice]);
     for (int i = 0; i < candidate_count; i++)
     {
         if (strcmp(candidates[i].party, party) == 0)
-            printf("%s. %s\n", candidates[i].id, candidates[i].name);
+            printf("%d. %s\n", candidates[i].id, candidates[i].name);
     }
     color_text(0);
 }
@@ -132,10 +174,10 @@ void show_candidates(const char *party, const char *district)
 //                           Function declarations - from bottom
 // ----------------------------------------------------------------------------------------------------
 void voter_details_section(int nic_status, char *nic, char *name, char *district, char *party);
-char *find_candidate_name(const char *id);
-void voted_details_section(const char *district, const char *party, const char *ids[3], const char *names[3]);
+char *find_candidate_name(int id);
+void voted_details_section(char *district, char *party, int ids[3], char *names[3] , int p_choice);
 int try_again();
-int is_candidate_in_party(const char *candidate_id, const char *party);
+int is_candidate_in_party(int candidate_id, char *party);
 
 //--------------------------------------------------------------------------------------------
 //                           Main vote function starts here
@@ -148,7 +190,7 @@ int vote_user(char *user_nic)
     // section 2 -> select party
     // section 3 -> select candidates
     char *district = "", *party = "", *userName = ""; // section 1 & 2 choices
-    char vote1[10], vote2[10], vote3[10];             // candidate IDs for section 4
+    int vote1, vote2, vote3;                          // candidate IDs for section 4
     User *user;                                       // logged in user
 
     char voter_id[20];
@@ -269,18 +311,22 @@ int vote_user(char *user_nic)
         // --------------------------------------------------------------------------------------------
         if (section == 4)
         {
-            show_candidates(party, district);
+            //color_text(parties[p_choice][1]);
+            show_candidates(party, district ,p_choice);
+            color_text(0);
             lines(1);
             printf("Enter your 3 candidate votes:\n");
+            color_text(2);
             printf("  - Use candidate IDs\n");
             printf("  - All must be from the same party\n");
+            color_text(0);
             lines(1);
             printf("Vote 1: ");
-            scanf("%s", vote1);
+            scanf("%d", &vote1);
             printf("Vote 2: ");
-            scanf("%s", vote2);
+            scanf("%d", &vote2);
             printf("Vote 3: ");
-            scanf("%s", vote3);
+            scanf("%d", &vote3);
             section = 5;
             continue;
         }
@@ -289,11 +335,14 @@ int vote_user(char *user_nic)
         // --------------------------------------------------------------------------------------------
         if (section == 5)
         {
-            //filter votes
-            if (!is_candidate_in_party(vote1, party) || !is_candidate_in_party(vote2, party) || !is_candidate_in_party(vote3, party)) {
+            // filter votes
+            if (!is_candidate_in_party(vote1, party) || !is_candidate_in_party(vote2, party) || !is_candidate_in_party(vote3, party))
+            {
                 lines(1);
-                printf("All votes must be for candidates\n");
-                printf("      the selected party (%s).\n", party);
+                color_text(1);
+                printf("    All votes must be for candidates\n");
+                printf("         the selected party (%s).\n", party);
+                color_text(0);
                 if (try_again() == 1)
                 {
                     return 1;
@@ -310,18 +359,18 @@ int vote_user(char *user_nic)
                 printf("votes.txt not found\n");
                 exit(1);
             }
-            fprintf(f, "%s,%s,%s|%s|%s,%s\n", voter_id, userName, vote1, vote2, vote3, district);
+            fprintf(f, "%s,%d|%d|%d,%s\n", voter_id, vote1, vote2, vote3, district);
             fclose(f);
 
             // complex function to show voted details --------------------------------------------------------
-            voted_details_section(district, party, (const char *[3]){vote1, vote2, vote3}, (const char *[3]){find_candidate_name(vote1), find_candidate_name(vote2), find_candidate_name(vote3)});
+            voted_details_section(district, party, (int[3]){vote1, vote2, vote3}, (char *[3]){find_candidate_name(vote1), find_candidate_name(vote2), find_candidate_name(vote3)}, p_choice);
             // end of complex function ------------------------------------------------------------------------
 
             // Update user status to VOTED
             user->status[0] = 'V'; // 'V' means VOTED
             lines(1);
             color_text(2);
-            printf("Vote declared successfully!\n");
+            printf("      Vote declared successfully!\n");
             color_text(0);
             lines(1);
             exit_to();
@@ -364,7 +413,7 @@ void voter_details_section(int nic_status, char *nic, char *name, char *district
     lines(1);
 }
 
-void voted_details_section(const char *district, const char *party, const char *ids[3], const char *names[3])
+void voted_details_section(char *district, char *party, int ids[3], char *names[3] ,int p_choice)
 {
     //| YOUR VOTED DETAILS --------------------
     // district:           party:
@@ -373,32 +422,37 @@ void voted_details_section(const char *district, const char *party, const char *
     //   <candidate_id> - <candidate_name>
     // ----------------------------------------
 
-    printf("| YOUR VOTED DETAILS --------------------\n");
+    printf("| YOUR VOTED DETAILS -------------------\n");
 
-    color_text(3);
+    color_text(party_color[--p_choice]);
     printf("district: %-18s party: %s\n", district, party);
 
     for (int i = 0; i < 3; i++)
-    {       
-        printf("  %-10s - %s\n", ids[i], names[i]);
+    {
+        printf("  %-5d - %s\n", ids[i], names[i]);
     }
 
     color_text(0);
-    printf("-----------------------------------------\n");
+    lines(1);
 }
-char *find_candidate_name(const char *id)
+char *find_candidate_name(int id)
 {
     for (int i = 0; i < candidate_count; i++)
     {
-        if (strcmp(candidates[i].id, id) == 0)
+        if (candidates[i].id == id)
+        {
             return candidates[i].name;
+        }
     }
     return "";
 }
 
-int is_candidate_in_party(const char *candidate_id, const char *party) {
-    for (int i = 0; i < candidate_count; i++) {
-        if (strcmp(candidates[i].id, candidate_id) == 0 && strcmp(candidates[i].party, party) == 0) {
+int is_candidate_in_party(int candidate_id, char *party)
+{
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (candidates[i].id == candidate_id && strcmp(candidates[i].party, party) == 0)
+        {
             return 1;
         }
     }

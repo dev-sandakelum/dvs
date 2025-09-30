@@ -5,70 +5,100 @@
 #include <stdlib.h>
 #include <string.h>
 
-int clear_screen() {
-    if (system("ver") == 0) {
+int clear_screen()
+{
+    if (system("ver") == 0)
+    {
         system("cls");
-    } else {
+    }
+    else
+    {
         system("clear");
     }
     return 0;
 }
 
-int color_text (int color) {
-    if (color == 0) {
+int color_text(int color)
+{
+    if (color == 0)
+    {
         // white
         printf("\033[0;37m");
-    }else if(color == 1){
+    }
+    else if (color == 1)
+    {
         // Red
         printf("\033[0;31m");
-    }else if (color == 2) {
-        // Green    
+    }
+    else if (color == 2)
+    {
+        // Green
         printf("\033[0;32m");
-    }else if (color == 3) {
+    }
+    else if (color == 3)
+    {
         // magenta
         printf("\033[0;35m");
-    }else if (color == 4) {
+    }
+    else if (color == 4)
+    {
         // blue
         printf("\033[0;34m");
-    }else if (color == 5) {
+    }
+    else if (color == 5)
+    {
         // yellow
         printf("\033[0;33m");
-    }else if (color == 6) {
+    }
+    else if (color == 6)
+    {
         // cyan
         printf("\033[0;36m");
     }
     return 0;
-}   
+}
 
-int lines(int type) {
-    if(type == 1){
-        printf(  "----------------------------------------\n");
-    }else if (type == 2) {
+int lines(int type)
+{
+    if (type == 1)
+    {
+        printf("----------------------------------------\n");
+    }
+    else if (type == 2)
+    {
         printf("\n----------------------------------------\n");
-    }else if (type == 3) {
-        printf(  "========================================\n");
-    }else if (type == 4) {
+    }
+    else if (type == 3)
+    {
+        printf("========================================\n");
+    }
+    else if (type == 4)
+    {
         printf("\n========================================\n");
     }
     return 0;
 }
 
-int exit_to() {
-    printf("type something and \nPress any key to return to menu: ");
+int exit_to()
+{
+    printf("type something and \nPress enter to return to menu: ");
     char temp;
     scanf(" %c", &temp);
     return 0;
 }
-int exit_from_0(char input, char check_char) {
+int exit_from_0(char input, char check_char)
+{
     lines(1);
-    if(input == 0 || check_char == '0') {
+    if (input == 0 || check_char == '0')
+    {
         exit_to();
         return 1;
     }
     return 0;
 }
 
-int top_bar(){
+int top_bar()
+{
     clear_screen();
     lines(4);
     printf("SRI LANKA PARLIAMENTARY ELECTION SYSTEM\n");
@@ -76,8 +106,10 @@ int top_bar(){
     return 0;
 }
 
-int error_message(char *err) {
-    if (err) {
+int error_message(char *err)
+{
+    if (err)
+    {
         lines(1);
         printf("%s\n", err);
         lines(1);
@@ -85,7 +117,8 @@ int error_message(char *err) {
     return 0;
 }
 
-int success_message(char *message) {
+int success_message(char *message)
+{
     lines(1);
     printf("SUCCESS: %s\n", message);
     lines(1);
@@ -108,20 +141,22 @@ int try_again()
     }
 }
 
-char *get_party_by_num(int party_num) {
-    switch (party_num) {
-        case 1:
-            return "BP";
-        case 2:
-            return "GA";
-        case 3:
-            return "RM";
-        case 4:
-            return "PF";
-        case 5:
-            return "NU";
-        default:
-            return "Unknown";
+char *get_party_by_num(int party_num)
+{
+    switch (party_num)
+    {
+    case 1:
+        return "BP";
+    case 2:
+        return "GA";
+    case 3:
+        return "RM";
+    case 4:
+        return "PF";
+    case 5:
+        return "NU";
+    default:
+        return "Unknown";
     }
 }
 #endif

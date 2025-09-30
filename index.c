@@ -6,6 +6,7 @@
 #include "fun.h" // common functions
 
 int instructions();
+int the_front();
 int welcome_screen();
 int register_user();
 //int login_user();
@@ -25,6 +26,7 @@ int main() {
     
     color_text(0);
     //printf("%s" , user[0]);
+    the_front();
     welcome_screen();
     main_menu(user[0]);
     
