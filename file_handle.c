@@ -9,18 +9,27 @@
 int save_user_as_voter(char *nic, char *name, char *password, int age)
 {
     FILE *users_txt = fopen("data/users.txt", "a");
-    if (users_txt == NULL)
+    if (users_txt == NULL){
         return 0;
-    fprintf(users_txt, "%s,%s,%s,%d,Mathara\n", nic, name, password, age);
+    }
+    fprintf(users_txt, "%s,%s,%s,%d,Matara,ACTIVE\n", nic, name, password, age);
     fclose(users_txt);
     return 1;
 }
 int save_user_as_candidate(char *nic, char *name, char *password, int age , int district, int party)
 {
-    FILE *candidates_txt = fopen("data/candidates.txt", "a");
-    if (candidates_txt == NULL)
+    FILE *candidates_txt = fopen("data/candidates.txt", "a+");
+    
+    if (candidates_txt == NULL){
         return 0;
-    fprintf(candidates_txt, "%s,%s,%s,%d,%d,%d\n", nic, name, password, age , district, party);
+    }
+    rewind(candidates_txt);
+    char line[256];
+    int count = 0;
+    for(; fgets(line,sizeof(line),candidates_txt) !=NULL;){
+        count++;
+    }
+    fprintf(candidates_txt, "%d,%s,%s,%s,%d,%d,%d\n", count++,nic, name, password, age , district, party);
     fclose(candidates_txt);
     return 1;
 }
