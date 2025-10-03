@@ -9,18 +9,28 @@ int instructions();
 int the_front();
 int welcome_screen();
 int register_user();
-//int login_user();
-int vote_user();
+int login_user();
+int vote_user(char *user_nic);
 int view_results();
 int main_menu(char *user_nic);
 int save_user_as_voter(char *nic, char *name, char *password, int age );
 int save_user_as_candidate(char *nic, char *name, char *password, int age , int district, int party);
 int check_nic_exists(char *nic);
 char *find_nic(char *nic);
+int login_by_pass(char *nic ,char *password);
+//char *login_user_data(char *nic, char *password);
 
 // Global variables
 char *err;
-char *user[] = {"200334455667", NULL, NULL, NULL}; // nic, name, password, age
+char user[4][100] = {"", "", "", ""}; // nic, name, password, age
+
+int set_user(char *nic, char *name, char *password, char *age) {
+    strcpy(user[0], nic);
+    strcpy(user[1], name);
+    strcpy(user[2], password);
+    strcpy(user[3], age);
+    return 0;
+}
 
 int main() {
     
@@ -33,10 +43,11 @@ int main() {
     return 0;
 }
 
-//#include "login.c"
+#include "login.c"
 #include "welcome.c"
 #include "register.c"
 #include "vote.c"
 #include "results.c"
 #include "menu.c"
-#include "file_handle.c"
+#include "file_handle_register.c"
+#include "file_handle_login.c"

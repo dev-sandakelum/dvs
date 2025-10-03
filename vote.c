@@ -2,11 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_LINE 256
-#define MAX_CANDIDATES 50
-#define MAX_USERS 50
-#define MAX_DISTRICTS 10
-#define MAX_PARTY 10
 
 typedef struct
 {
@@ -29,20 +24,20 @@ typedef struct
     int party_no;
 } Candidate;
 
-char districts[MAX_DISTRICTS][20];
+char districts[10][20];
 int district_count = 0;
 
-char parties[MAX_PARTY][10];
+char parties[10][10];
 int party_count = 0;
 
-Candidate candidates[MAX_CANDIDATES];
+Candidate candidates[50];
 int candidate_count = 0;
 
-User users[MAX_USERS];
+User users[50];
 int user_count = 0;
 
 int primary_color = 0;
-int party_color[MAX_PARTY];
+int party_color[10];
 
 // ----------------------------------------------------------------------------------------------------
 //                           Function declarations - file handling
@@ -55,7 +50,7 @@ void load_users()
         printf("users.txt not found\n");
         exit(1);
     }
-    char line[MAX_LINE];
+    char line[256];
     while (fgets(line, sizeof(line), f))
     {
         User u;
@@ -79,7 +74,7 @@ void load_candidates()
         printf("candidates.txt not found\n");
         exit(1);
     }
-    char line[MAX_LINE];
+    char line[256];
     while (fgets(line, sizeof(line), f))
     {
         Candidate c;
@@ -359,7 +354,7 @@ int vote_user(char *user_nic)
                 printf("votes.txt not found\n");
                 exit(1);
             }
-            fprintf(f, "%s,%d|%d|%d,%s\n", voter_id, vote1, vote2, vote3, district);
+            fprintf(f, "%s,%s,%d|%d|%d,%s\n", voter_id ,userName, vote1, vote2, vote3, district);
             fclose(f);
 
             // complex function to show voted details --------------------------------------------------------

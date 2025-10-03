@@ -8,7 +8,7 @@ int main_menu(char *user_nic)
         int key_return = 0;
         top_bar();
         // Display user NIC if logged in
-        if (user_nic != NULL)
+        if (user_nic != NULL  && strlen(user_nic) > 11)
         {
 
             if (user_nic)
@@ -26,7 +26,7 @@ int main_menu(char *user_nic)
         else
         {
             color_text(1);
-            printf("Please login first");
+            printf("Please login first to vote.");
         }
 
         color_text(0);
@@ -45,7 +45,7 @@ int main_menu(char *user_nic)
         switch (choice)
         {
         case 1:
-            // login_user();
+            login_user();
             break;
         case 2:
             register_user();

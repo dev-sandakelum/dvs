@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <string.h>
 #include <stddef.h>
@@ -53,7 +52,7 @@ int check_nic_exists(char *nic){
 }
 
 //--------------------------------------------------------------------------------------------------
-//                            Find NIC and return 1 if found, else 0
+//                            Find NIC and return NIC if found, else 0
 //--------------------------------------------------------------------------------------------------
 char *find_nic(char *nic) {
     
