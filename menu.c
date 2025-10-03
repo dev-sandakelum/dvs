@@ -45,7 +45,7 @@ int main_menu(char *user_nic)
         switch (choice)
         {
         case 1:
-            // login_user();
+            login_user();
             break;
         case 2:
             register_user();

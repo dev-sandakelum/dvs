@@ -9,7 +9,7 @@ int instructions();
 int the_front();
 int welcome_screen();
 int register_user();
-//int login_user();
+int login_user();
 int vote_user();
 int view_results();
 int main_menu(char *user_nic);
@@ -17,6 +17,7 @@ int save_user_as_voter(char *nic, char *name, char *password, int age );
 int save_user_as_candidate(char *nic, char *name, char *password, int age , int district, int party);
 int check_nic_exists(char *nic);
 char *find_nic(char *nic);
+char *login_user_data(char *nic, char *password);
 
 // Global variables
 char *err;
@@ -33,10 +34,10 @@ int main() {
     return 0;
 }
 
-//#include "login.c"
+#include "login.c"
 #include "welcome.c"
 #include "register.c"
 #include "vote.c"
 #include "results.c"
 #include "menu.c"
-#include "file_handle.c"
+#include "file_handle_register.c"
