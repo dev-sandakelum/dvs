@@ -1,15 +1,17 @@
-200012345678,Arjun Wijesinghe,password123,24,Colombo,ACTIVE
-199112233445,Nimal Perera,passNimal,32,Matara,VOTED
-200123456789,Sachini Fernando,fernando@2001,23,Matara,ACTIVE
-199887654321,Kavindu Jayasuriya,kavindu321,28,Galle,VOTED
-199334455667,Tharindu Silva,tharuPass99,26,Matara,ACTIVE
-200776543219,Chathura Wickramasinghe,chathu2020,30,Kandy,VOTED
-199998877665,Nadeesha Perera,nadee#77,25,Colombo,ACTIVE
-198765432190,Haritha Gunawardena,haritha190,27,Matara,VOTED
-200554433221,Rajitha Senanayake,rajSen@123,29,Hambantota,ACTIVE
-199223344556,Mahesha Dissanayake,mahe$556,22,Matara,ACTIVE
-200665544332,Sameera Kumara,sameera#44,31,Jaffna,VOTED
-198445566778,Dilini Weerasinghe,dilini778,24,Matara,ACTIVE
-200334455667,Sandun Jayawardena,sandunPass,33,Colombo,VOTED
-199556677889,Isuru Madushan,isuru_889,21,Matara,ACTIVE
-200778899001,Pavithra Ranasinghe,pavi001,23,Galle,VOTED
+200012345678,Arjun,password123,24,Colombo,ACTIVE
+199112233445,Nimal,passNimal,32,Matara,VOTED
+200123456789,Sachini,fernando@2001,23,Matara,ACTIVE
+199887654321,Kavindu,kavindu321,28,Galle,VOTED
+199334455667,Tharindu,tharuPass99,26,Matara,ACTIVE
+200776543219,Chathura,chathu2020,30,Kandy,VOTED
+199998877665,Nadeesha,nadee#77,25,Colombo,ACTIVE
+198765432190,Haritha,z,27,Matara,VOTED
+200554433221,Rajitha,rajSen@123,29,Hambantota,ACTIVE
+199223344556,Mahesha,mahe$556,22,Matara,ACTIVE
+200665544332,Sameera,sameera#44,31,Jaffna,VOTED
+198445566778,Dilini,dilini778,24,Matara,ACTIVE
+200334455667,Sandun,sandunPass,33,Colombo,VOTED
+123456789012,Isuru,isuru_889,21,Matara,ACTIVE
+200778899001,Pavithra,gg,23,Galle,VOTED
+200430702509,pakaya,1234,21,Matara,ACTIVE
+200501302256,hasitha,gg,20,Matara,ACTIVE
