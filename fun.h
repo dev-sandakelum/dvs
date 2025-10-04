@@ -120,7 +120,7 @@ int error_message(char *err)
 int success_message(char *message)
 {
     lines(1);
-    printf("SUCCESS: %s\n", message);
+    printf("| %s \n", message);
     lines(1);
     return 0;
 }

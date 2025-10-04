@@ -1,14 +1,21 @@
 #include <stddef.h>
 
-int main_menu(char *user_nic , char *user_name, char *user_pass, char *user_age)
+int main_menu(char *user_nic, char *user_name, char *user_pass, char *user_age)
 {
     while (1)
     {
         int choice;
         int key_return = 0;
         top_bar();
+
+        printf("%s", user_age);
+        color_text(2);
+        printf("             Welcome to the\n");
+        printf("      Digital Voting System (DVS)!\n");
+        color_text(0);
+        lines(1);
         // Display user NIC if logged in
-        if (user_nic != NULL  && strlen(user_nic) > 11)
+        if (user_nic != NULL && strlen(user_nic) > 11)
         {
 
             if (user_nic)
@@ -37,6 +44,7 @@ int main_menu(char *user_nic , char *user_name, char *user_pass, char *user_age)
         printf("  3. Vote\n");
         printf("  4. View Results\n");
         printf("  5. Instructions\n");
+        printf("  6. Logout\n");
         printf("  0. Exit\n");
         lines(3);
         printf("Enter your choice: ");
@@ -51,13 +59,16 @@ int main_menu(char *user_nic , char *user_name, char *user_pass, char *user_age)
             register_user();
             break;
         case 3:
-            vote_user(user_nic , user_name);
+            vote_user(user_nic, user_name);
             break;
         case 4:
             view_results();
             break;
         case 5:
             instructions();
+            break;
+        case 6:
+            logout();
             break;
         case 0:
             top_bar();
