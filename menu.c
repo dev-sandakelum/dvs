@@ -8,7 +8,6 @@ int main_menu(char *user_nic, char *user_name, char *user_pass, char *user_age)
         int key_return = 0;
         top_bar();
 
-        printf("%s", user_age);
         color_text(2);
         printf("             Welcome to the\n");
         printf("      Digital Voting System (DVS)!\n");

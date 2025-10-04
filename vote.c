@@ -33,7 +33,7 @@ int party_color[10];
 //                           Function declarations - file handling
 // ----------------------------------------------------------------------------------------------------
 
-void load_users(char *user_nic)
+int load_users(char *user_nic)
 {
     FILE *f = fopen("data/users.txt", "r");
     if (!f)
@@ -50,16 +50,16 @@ void load_users(char *user_nic)
 
         if (strcmp(n_id, user_nic) == 0)
         {
-            color_text(2);
-            printf("%s matched with %s", user_nic, line);
+            if (strcmp(n_status, "VOTED") == 0)
+            {
+                return 1;
+            }
         }
         else
         {
-            color_text(1);
-            printf("%s did't match with %s", user_nic, line);
             read_all_users[u_count++] = strdup(line);
         }
-        printf("%d\n", u_count);
+
         int found = 0;
         for (int i = 0; i < district_count; i++)
             if (strcmp(districts[i], n_district) == 0)
@@ -69,7 +69,6 @@ void load_users(char *user_nic)
     }
 
     fclose(f);
-    scanf("%d", &party_color);
 }
 
 void load_candidates()
@@ -199,7 +198,18 @@ int vote_user(char *user_nic, char *user_name)
     }
     strcpy(voter_id, user_nic);
 
-    load_users(user_nic);
+    int result = load_users(user_nic);
+    if (result == 1)
+    {
+        top_bar();
+        lines(1);
+        color_text(3);
+        printf("User %s has already voted.\n", user_nic);
+        color_text(0);
+        lines(1);
+        exit_to();
+        return 0;
+    }
     load_candidates();
     while (1)
     {
