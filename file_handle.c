@@ -27,3 +27,16 @@ int check_nic_exists(char *nic){
     fclose(users_txt);
     return 0;
 }
+
+int nic_find(int nic){
+    FILE * users_txt = fopen("data/users.txt","r");
+    if (users_txt == NULL){
+        return 0;
+    }
+    char line[256];
+    for(; fgets(line,sizeof(line),users_txt) !=NULL;){
+        printf(line);
+    }
+    fclose(users_txt);
+    return 0;
+}

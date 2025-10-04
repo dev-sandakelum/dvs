@@ -1,44 +1,39 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
 
 int login_user() {
-    char nic[20];
-    char password[20];
-    int attempts = 3;
 
-    while (attempts > 0) {
-        top_bar();
-        printf("| USER LOGIN -------------------------\n");
+    top_bar();
+    char nic[20]= "";
+    char password[20]= "";
 
+    printf("NIC  : ");
+    scanf("%s",nic);
+
+    printf("Password  : ");
+    scanf("%s",password);
+
+    int result = login_by_pass(nic,password);
+    if (result == 1)
+    {
         color_text(2);
-        printf("Enter NIC Numer: %s",nic);
-        printf("Enter Password: %s",password);
-        color_text(0);
-
-        
-        if (strcmp(nic, "123456789123") == 0 && strcmp(password, "pass123") == 0) {
-            printf("\nLogin successful! Welcome, %s.\n", nic);
-            return 1;
-        } else {
-            attempts--;
-            printf("\nIncorrect username or password. You have %d attempts remaining.\n", attempts);
-        }
+        printf("Login Successful! Welcome, %s.\n",nic);
     }
-
-    printf("\nToo many failed attempts. Exiting.\n");
+    else if (result == 0)
+    {
+        color_text(1);
+        printf("Login Failed! Invalid NIC or Password.\n");
+    }
+    else 
+    {
+        color_text(1);
+        printf("Error opening User data file.\n");
+        return 2;
+    }
+    color_text(0);
+    lines(1);
+    exit_to();
     return 0;
 }
-
-// Main function
-int main() {
-    if (login_user()) {
-    
-        printf("Access granted to the system.\n");
-    } else {
-        printf("Access denied.\n");
-    }
-
-    return 0;
-}
-
