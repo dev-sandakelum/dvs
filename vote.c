@@ -2,17 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-typedef struct
-{
-    char id[20];
-    char name[50];
-    char password[30];
-    int age;
-    char district[20];
-    char status[10];
-} User;
-
 typedef struct
 {
     int id;
@@ -33,7 +22,6 @@ int party_count = 0;
 Candidate candidates[50];
 int candidate_count = 0;
 
-User users[50];
 int user_count = 0;
 
 int primary_color = 0;
@@ -42,6 +30,7 @@ int party_color[10];
 // ----------------------------------------------------------------------------------------------------
 //                           Function declarations - file handling
 // ----------------------------------------------------------------------------------------------------
+
 void load_users()
 {
     FILE *f = fopen("data/users.txt", "r");
@@ -53,15 +42,16 @@ void load_users()
     char line[256];
     while (fgets(line, sizeof(line), f))
     {
-        User u;
-        sscanf(line, "%[^,],%[^,],%[^,],%d,%[^,],%s", u.id, u.name, u.password, &u.age, u.district, u.status);
-        users[user_count++] = u;
+        char n_id[20], n_name[50], n_password[30], n_district[20], n_status[10];
+        int n_age;
+        sscanf(line, "%[^,],%[^,],%[^,],%d,%[^,],%s", n_id, n_name, n_password, &n_age, n_district, n_status);
+        //users[user_count++] = u;
         int found = 0;
         for (int i = 0; i < district_count; i++)
-            if (strcmp(districts[i], u.district) == 0)
+            if (strcmp(districts[i], n_district) == 0)
                 found = 1;
         if (!found)
-            strcpy(districts[district_count++], u.district);
+            strcpy(districts[district_count++], n_district);
     }
     fclose(f);
 }
@@ -91,13 +81,6 @@ void load_candidates()
     fclose(f);
 }
 
-User *find_user_by_id(const char *id)
-{
-    for (int i = 0; i < user_count; i++)
-        if (strcmp(users[i].id, id) == 0)
-            return &users[i];
-    return NULL;
-}
 
 void show_districts()
 {
@@ -177,7 +160,7 @@ int is_candidate_in_party(int candidate_id, char *party);
 //--------------------------------------------------------------------------------------------
 //                           Main vote function starts here
 //--------------------------------------------------------------------------------------------
-int vote_user(char *user_nic)
+int vote_user(char *user_nic , char *user_name)
 {
     int section = 0, d_choice, p_choice, nic_status = 1;
     // section 0 -> enter NIC
@@ -186,7 +169,7 @@ int vote_user(char *user_nic)
     // section 3 -> select candidates
     char *district = "", *party = "", *userName = ""; // section 1 & 2 choices
     int vote1, vote2, vote3;                          // candidate IDs for section 4
-    User *user;                                       // logged in user
+    //User *user;                                       // logged in user
 
     char voter_id[20];
     if (user_nic == NULL)
@@ -213,14 +196,17 @@ int vote_user(char *user_nic)
         {
             // printf("Enter your NIC: ");
             // scanf("%s", voter_id);
-            user = find_user_by_id(voter_id);
-            if (!user)
-            {
-                printf("User not found.\n");
+            if(user_nic == NULL  || strlen(user_nic) < 12){
+                color_text(1);
+                lines(1);
+                printf("You are not logged in. Please login first.\n");
+                lines(1);
+                color_text(0);
+                lines(1);
                 exit_to();
                 return 1;
             }
-            userName = user->name;
+            userName = user_name;
             section = 1;
             continue;
         }
@@ -362,7 +348,7 @@ int vote_user(char *user_nic)
             // end of complex function ------------------------------------------------------------------------
 
             // Update user status to VOTED
-            user->status[0] = 'V'; // 'V' means VOTED
+            //user->status[0] = 'V'; // 'V' means VOTED
             lines(1);
             color_text(2);
             printf("      Vote declared successfully!\n");

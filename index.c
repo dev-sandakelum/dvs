@@ -10,9 +10,9 @@ int the_front();
 int welcome_screen();
 int register_user();
 int login_user();
-int vote_user(char *user_nic);
+int vote_user(char *user_nic , char *user_name);
 int view_results();
-int main_menu(char *user_nic);
+int main_menu(char *user_nic , char *user_name, char *user_pass, char *user_age);
 int save_user_as_voter(char *nic, char *name, char *password, int age );
 int save_user_as_candidate(char *nic, char *name, char *password, int age , int district, int party);
 int check_nic_exists(char *nic);
@@ -38,7 +38,7 @@ int main() {
     //printf("%s" , user[0]);
     the_front();
     welcome_screen();
-    main_menu(user[0]);
+    main_menu(user[0] , user[1], user[2], user[3]);
     
     return 0;
 }

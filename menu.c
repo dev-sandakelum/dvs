@@ -1,6 +1,6 @@
 #include <stddef.h>
 
-int main_menu(char *user_nic)
+int main_menu(char *user_nic , char *user_name, char *user_pass, char *user_age)
 {
     while (1)
     {
@@ -51,7 +51,7 @@ int main_menu(char *user_nic)
             register_user();
             break;
         case 3:
-            vote_user(user_nic);
+            vote_user(user_nic , user_name);
             break;
         case 4:
             view_results();
