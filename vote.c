@@ -2,17 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-typedef struct
-{
-    char id[20];
-    char name[50];
-    char password[30];
-    int age;
-    char district[20];
-    char status[10];
-} User;
-
 typedef struct
 {
     int id;
@@ -33,8 +22,9 @@ int party_count = 0;
 Candidate candidates[50];
 int candidate_count = 0;
 
-User users[50];
 int user_count = 0;
+char *read_all_users[50] = {};
+int u_count = 0;
 
 int primary_color = 0;
 int party_color[10];
@@ -42,7 +32,8 @@ int party_color[10];
 // ----------------------------------------------------------------------------------------------------
 //                           Function declarations - file handling
 // ----------------------------------------------------------------------------------------------------
-void load_users()
+
+int load_users(char *user_nic)
 {
     FILE *f = fopen("data/users.txt", "r");
     if (!f)
@@ -50,19 +41,33 @@ void load_users()
         printf("users.txt not found\n");
         exit(1);
     }
-    char line[256];
+    char line[256]; // users count except logged account owner
     while (fgets(line, sizeof(line), f))
     {
-        User u;
-        sscanf(line, "%[^,],%[^,],%[^,],%d,%[^,],%s", u.id, u.name, u.password, &u.age, u.district, u.status);
-        users[user_count++] = u;
+        char n_id[20], n_name[50], n_password[30], n_district[20], n_status[10];
+        int n_age;
+        sscanf(line, "%[^,],%[^,],%[^,],%d,%[^,],%s", n_id, n_name, n_password, &n_age, n_district, n_status);
+
+        if (strcmp(n_id, user_nic) == 0)
+        {
+            if (strcmp(n_status, "VOTED") == 0)
+            {
+                return 1;
+            }
+        }
+        else
+        {
+            read_all_users[u_count++] = strdup(line);
+        }
+
         int found = 0;
         for (int i = 0; i < district_count; i++)
-            if (strcmp(districts[i], u.district) == 0)
+            if (strcmp(districts[i], n_district) == 0)
                 found = 1;
         if (!found)
-            strcpy(districts[district_count++], u.district);
+            strcpy(districts[district_count++], n_district);
     }
+
     fclose(f);
 }
 
@@ -89,14 +94,6 @@ void load_candidates()
             strcpy(parties[party_count++], c.party);
     }
     fclose(f);
-}
-
-User *find_user_by_id(const char *id)
-{
-    for (int i = 0; i < user_count; i++)
-        if (strcmp(users[i].id, id) == 0)
-            return &users[i];
-    return NULL;
 }
 
 void show_districts()
@@ -152,7 +149,7 @@ void show_parties()
     color_text(0);
 }
 
-void show_candidates(const char *party, const char *district ,int p_choice)
+void show_candidates(const char *party, const char *district, int p_choice)
 {
     // printf("Candidates for party %s in district %s:\n", party, district);
     printf("Candidates:\n");
@@ -170,14 +167,16 @@ void show_candidates(const char *party, const char *district ,int p_choice)
 // ----------------------------------------------------------------------------------------------------
 void voter_details_section(int nic_status, char *nic, char *name, char *district, char *party);
 char *find_candidate_name(int id);
-void voted_details_section(char *district, char *party, int ids[3], char *names[3] , int p_choice);
+void voted_details_section(char *district, char *party, int ids[3], char *names[3], int p_choice);
 int try_again();
 int is_candidate_in_party(int candidate_id, char *party);
+// from file_handle_vote.c
+int save_vote(char *voter_id, char *userName, int vote1, int vote2, int vote3, char *district, char **read_all_users, int u_count);
 
 //--------------------------------------------------------------------------------------------
 //                           Main vote function starts here
 //--------------------------------------------------------------------------------------------
-int vote_user(char *user_nic)
+int vote_user(char *user_nic, char *user_name)
 {
     int section = 0, d_choice, p_choice, nic_status = 1;
     // section 0 -> enter NIC
@@ -186,7 +185,7 @@ int vote_user(char *user_nic)
     // section 3 -> select candidates
     char *district = "", *party = "", *userName = ""; // section 1 & 2 choices
     int vote1, vote2, vote3;                          // candidate IDs for section 4
-    User *user;                                       // logged in user
+    // User *user;                                       // logged in user
 
     char voter_id[20];
     if (user_nic == NULL)
@@ -199,7 +198,18 @@ int vote_user(char *user_nic)
     }
     strcpy(voter_id, user_nic);
 
-    load_users();
+    int result = load_users(user_nic);
+    if (result == 1)
+    {
+        top_bar();
+        lines(1);
+        color_text(3);
+        printf("User %s has already voted.\n", user_nic);
+        color_text(0);
+        lines(1);
+        exit_to();
+        return 0;
+    }
     load_candidates();
     while (1)
     {
@@ -213,14 +223,18 @@ int vote_user(char *user_nic)
         {
             // printf("Enter your NIC: ");
             // scanf("%s", voter_id);
-            user = find_user_by_id(voter_id);
-            if (!user)
+            if (user_nic == NULL || strlen(user_nic) < 12)
             {
-                printf("User not found.\n");
+                color_text(1);
+                lines(1);
+                printf("You are not logged in. Please login first.\n");
+                lines(1);
+                color_text(0);
+                lines(1);
                 exit_to();
                 return 1;
             }
-            userName = user->name;
+            userName = user_name;
             section = 1;
             continue;
         }
@@ -306,8 +320,8 @@ int vote_user(char *user_nic)
         // --------------------------------------------------------------------------------------------
         if (section == 4)
         {
-            //color_text(parties[p_choice][1]);
-            show_candidates(party, district ,p_choice);
+            // color_text(parties[p_choice][1]);
+            show_candidates(party, district, p_choice);
             color_text(0);
             lines(1);
             printf("Enter your 3 candidate votes:\n");
@@ -348,21 +362,15 @@ int vote_user(char *user_nic)
                     continue;
                 }
             }
-            FILE *f = fopen("data/votes.txt", "a");
-            if (!f)
-            {
-                printf("votes.txt not found\n");
-                exit(1);
-            }
-            fprintf(f, "%s,%s,%d|%d|%d,%s\n", voter_id ,userName, vote1, vote2, vote3, district);
-            fclose(f);
+            //-------------- SAVING VOTE TO DB ------------------------
+            save_vote(voter_id, userName, vote1, vote2, vote3, district, read_all_users, u_count);
 
             // complex function to show voted details --------------------------------------------------------
             voted_details_section(district, party, (int[3]){vote1, vote2, vote3}, (char *[3]){find_candidate_name(vote1), find_candidate_name(vote2), find_candidate_name(vote3)}, p_choice);
             // end of complex function ------------------------------------------------------------------------
 
             // Update user status to VOTED
-            user->status[0] = 'V'; // 'V' means VOTED
+            // user->status[0] = 'V'; // 'V' means VOTED
             lines(1);
             color_text(2);
             printf("      Vote declared successfully!\n");
@@ -408,7 +416,7 @@ void voter_details_section(int nic_status, char *nic, char *name, char *district
     lines(1);
 }
 
-void voted_details_section(char *district, char *party, int ids[3], char *names[3] ,int p_choice)
+void voted_details_section(char *district, char *party, int ids[3], char *names[3], int p_choice)
 {
     //| YOUR VOTED DETAILS --------------------
     // district:           party:

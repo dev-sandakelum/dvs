@@ -6,7 +6,7 @@
 //                              login -->>
 //--------------------------------------------------------------------------------------------------
 
-int login_by_pass(char *nic ,char *password){
-    
+int login_by_pass(char *nic ,char *password , char log_type[10]){
+   
     return 0;
 }
