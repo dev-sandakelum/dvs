@@ -73,24 +73,14 @@ int main_menu(char *user_nic, char *user_name, char *user_pass, char *user_age)
             logout();
             break;
         case 0:
-            top_bar();
-            printf("| EXIT ---------------------------------\n");
-            lines(2);
-            color_text(5);
-            printf("Thank you \nfor using SL Election System!\n");
-            printf("Goodbye!\n");
-            color_text(0);
-            lines(3);
+            good_bye();
             key_return = 1;
             break;
+        case 99:
+            administrator();
+            break;
         default:
-            top_bar();
-            printf("| ERROR --------------------------------\n");
-            color_text(1);
-            error_message("\t   Invalid choice. \n     Please select a valid option.");
-            color_text(0);
-            lines(3);
-            exit_to();
+            menu_default_error();
             break;
         }
 

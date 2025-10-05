@@ -20,6 +20,7 @@ char *find_nic(char *nic);
 int login_by_pass(char *nic, char *password, char log_type[10]);
 char *check_login();
 int save_login_session(char *nic);
+int administrator();
 
 // Global variables
 char *err;
@@ -75,3 +76,5 @@ int main()
 #include "file_handle_login.c"
 #include "file_handle_vote.c"
 #include "file_handle_session.c"
+#include "administrator.c"
+#include "file_handle_administrator.c"

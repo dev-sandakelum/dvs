@@ -159,4 +159,26 @@ char *get_party_by_num(int party_num)
         return "Unknown";
     }
 }
+int good_bye()
+{
+    top_bar();
+    printf("| EXIT ---------------------------------\n");
+    lines(2);
+    color_text(5);
+    printf("Thank you \nfor using SL Election System!\n");
+    printf("Goodbye!\n");
+    color_text(0);
+    lines(3);
+    return 1;
+}
+int menu_default_error()
+{
+    top_bar();
+    printf("| ERROR --------------------------------\n");
+    color_text(1);
+    error_message("\t   Invalid choice. \n     Please select a valid option.");
+    color_text(0);
+    lines(3);
+    exit_to();
+}
 #endif
