@@ -227,7 +227,7 @@ int vote_user(char *user_nic, char *user_name)
             {
                 color_text(1);
                 lines(1);
-                printf("You are not logged in. Please login first.\n");
+                printf("You are not logged in.Please login first\n");
                 lines(1);
                 color_text(0);
                 lines(1);

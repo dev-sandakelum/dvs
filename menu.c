@@ -77,7 +77,7 @@ int main_menu(char *user_nic, char *user_name, char *user_pass, char *user_age)
             key_return = 1;
             break;
         case 99:
-            administrator();
+            administrator(user_nic);
             break;
         default:
             menu_default_error();

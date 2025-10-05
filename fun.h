@@ -96,6 +96,12 @@ int exit_from_0(char input, char check_char)
     }
     return 0;
 }
+int continue_to(){
+    printf("type something and \nPress enter to continue: ");
+    char temp;
+    scanf(" %c", &temp);
+    return 0;
+}
 
 int top_bar()
 {

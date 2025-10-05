@@ -20,7 +20,7 @@ char *find_nic(char *nic);
 int login_by_pass(char *nic, char *password, char log_type[10]);
 char *check_login();
 int save_login_session(char *nic);
-int administrator();
+int administrator(char user_nic[20]);
 
 // Global variables
 char *err;
@@ -54,7 +54,7 @@ int logout()
 int main()
 {
     char *nic_if_logged = check_login();
-    printf("%s\n", nic_if_logged);
+    //printf("%s\n", nic_if_logged);
     login_by_pass(nic_if_logged, "", "session");
 
     color_text(0);
