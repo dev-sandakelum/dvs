@@ -45,6 +45,9 @@ int main_menu(char *user_nic, char *user_name, char *user_pass, char *user_age)
         printf("  5. Instructions\n");
         printf("  6. Logout\n");
         printf("  0. Exit\n");
+        // For admin
+        lines(1);
+        printf("  99. Administrative\n");
         lines(3);
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -73,15 +76,19 @@ int main_menu(char *user_nic, char *user_name, char *user_pass, char *user_age)
             top_bar();
             printf("| EXIT ---------------------------------\n");
             lines(2);
-            printf("Thank you for using SL Election System!\n");
+            color_text(5);
+            printf("Thank you \nfor using SL Election System!\n");
             printf("Goodbye!\n");
+            color_text(0);
             lines(3);
             key_return = 1;
             break;
         default:
             top_bar();
             printf("| ERROR --------------------------------\n");
-            error_message("Invalid choice. Please select a valid option (0-4).");
+            color_text(1);
+            error_message("\t   Invalid choice. \n     Please select a valid option.");
+            color_text(0);
             lines(3);
             exit_to();
             break;

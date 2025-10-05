@@ -8,7 +8,7 @@ int save_vote(char *voter_id, char *userName, int vote1, int vote2, int vote3, c
     if (!f)
     {
         printf("votes.txt not found\n");
-        exit(1);
+        exit_to();
     }
 
     fprintf(f, "%s,%s,%d|%d|%d,%s\n", voter_id, userName, vote1, vote2, vote3, district);
@@ -35,3 +35,4 @@ int save_vote(char *voter_id, char *userName, int vote1, int vote2, int vote3, c
     //========================================================================================
     return 0;
 }
+
