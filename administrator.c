@@ -1,4 +1,9 @@
+#include <stdio.h>
+#include <stddef.h>
+
 int admin_menu();
+int set_results_status(int enable);
+int check_results_status();
 
 int administrator(char user_nic[20])
 {
@@ -50,12 +55,30 @@ int admin_menu()
     while (1)
     {
         top_bar();
+        int status = check_results_status();
         lines(1);
         color_text(2);
         printf("| ADMINISTRATIVE PANEL\n");
         color_text(0);
         lines(1);
-        printf("1. Release Results\n");
+        printf("Current Status: ");
+        if (status)
+        {
+            color_text(5);
+            printf("Results Released\n");
+            color_text(0);
+            lines(1);
+            printf("1. Hide Results\n");
+        }
+        else
+        {
+            color_text(5);
+            printf("Results Not Released\n");
+            color_text(0);
+            lines(1);
+            printf("1. Release Results\n");
+        }
+
         printf("0. Exit \n");
         lines(1);
         printf("Select an option (0-1): ");
@@ -65,9 +88,16 @@ int admin_menu()
         switch (choice)
         {
         case 1:
-            // Call function to release results
+
             printf("Releasing results...\n");
-            // release_results(); // Uncomment and implement as needed
+            if (status)
+            {
+                set_results_status(0);
+            }
+            else
+            {
+                set_results_status(1);
+            }
             break;
         case 0:
             printf("Exiting administrative panel...\n");
