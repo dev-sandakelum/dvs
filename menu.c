@@ -49,6 +49,9 @@ int main_menu(char *user_nic, char *user_name, char *user_pass, char *user_age)
         lines(1);
         printf("  99. Administrative\n");
         lines(3);
+        printf("\n");
+        lines(3);
+        printf ("\033[2A");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
