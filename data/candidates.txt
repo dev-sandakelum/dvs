@@ -23,3 +23,4 @@
 23,000000000023,Kavinda Silva,pass023,0,NU,3
 24,000000000024,Amara Perera,pass024,0,NU,4
 25,000000000025,Nisha Rathnayake,pass025,0,NU,5
+25,200501302257,saman,gg,25,1,2
