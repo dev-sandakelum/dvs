@@ -23,7 +23,7 @@ Candidate candidates[50];
 int candidate_count = 0;
 
 int user_count = 0;
-char *read_all_users[50] = {};
+char *read_all_users[200] = {};
 int u_count = 0;
 
 int primary_color = 0;
@@ -170,7 +170,7 @@ char *find_candidate_name(int id);
 void voted_details_section(char *district, char *party, int ids[3], char *names[3], int p_choice);
 int try_again();
 int is_candidate_in_party(int candidate_id, char *party);
-// from file_handle_vote.c
+// ========== from file_handle_vote.c ============
 int save_vote(char *voter_id, char *userName, int vote1, int vote2, int vote3, char *district, char **read_all_users, int u_count);
 
 //--------------------------------------------------------------------------------------------
@@ -227,7 +227,7 @@ int vote_user(char *user_nic, char *user_name)
             {
                 color_text(1);
                 lines(1);
-                printf("You are not logged in. Please login first.\n");
+                printf("You are not logged in.Please login first\n");
                 lines(1);
                 color_text(0);
                 lines(1);

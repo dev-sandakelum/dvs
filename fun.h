@@ -15,6 +15,7 @@ int clear_screen()
     {
         system("clear");
     }
+    //printf("\033[2J\033[H");
     return 0;
 }
 
@@ -96,6 +97,12 @@ int exit_from_0(char input, char check_char)
     }
     return 0;
 }
+int continue_to(){
+    printf("type something and \nPress enter to continue: ");
+    char temp;
+    scanf(" %c", &temp);
+    return 0;
+}
 
 int top_bar()
 {
@@ -158,5 +165,27 @@ char *get_party_by_num(int party_num)
     default:
         return "Unknown";
     }
+}
+int good_bye()
+{
+    top_bar();
+    printf("| EXIT ---------------------------------\n");
+    lines(2);
+    color_text(5);
+    printf("Thank you \nfor using SL Election System!\n");
+    printf("Goodbye!\n");
+    color_text(0);
+    lines(3);
+    return 1;
+}
+int menu_default_error()
+{
+    top_bar();
+    printf("| ERROR --------------------------------\n");
+    color_text(1);
+    error_message("\t   Invalid choice. \n     Please select a valid option.");
+    color_text(0);
+    lines(3);
+    exit_to();
 }
 #endif

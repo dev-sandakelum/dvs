@@ -2,7 +2,7 @@
 
 int welcome_screen()
 {
-    int choice;
+    char choice;
     top_bar();
     color_text(2);
     printf("             Welcome to the\n");
@@ -24,59 +24,23 @@ int welcome_screen()
     printf("     proceed to the main menu?\n");
     lines(1);
     printf("         (1. Yes  0. No): ");
-    scanf("%d", &choice);
-    if (choice == 1)
+    scanf(" %c", &choice);
+    if (choice == '1')
     {
         return 0;
     }
-    else if (choice == 0)
+    else if (choice == '0')
     {
         instructions();
         return 3;
     }
     return 1;
 }
-int instructions()
-{
-    top_bar();
-    printf("|INSTRUCTIONS ==========================\n");
-    color_text(2);
-    printf("General Instructions ------------------\n");
-    color_text(3);
-    printf(" - Exit any section: enter 0\n");
-    printf(" - Provide accurate information\n");
-    color_text(2);
-    printf("Registration --------------------------\n");
-    color_text(3);
-    printf(" - Provide valid NIC, name, age,\n");
-    printf("   and password\n");
-    printf(" - Candidates select district and\n");
-    printf("   party\n");
-    printf(" - Must be at least 18 years old\n");
-    printf(" - Each NIC can only register once\n");
-    color_text(2);
-    printf("Voting --------------------------------\n");
-    color_text(3);
-    printf(" - Select district and party\n");
-    printf(" - Vote for up to 3 candidates from\n");
-    printf("   the same party\n");
-    color_text(2);
-    printf("Results -------------------------------\n");
-    color_text(3);
-    printf(" - View election results\n");
-    printf(" - Results are updated after voting\n");
-    color_text(0);
-    lines(3);
-    printf("Press any key and then enter to\nproceed to the main menu: ");
-    int temp;
-    scanf("%d", &temp);
-    return 0;
-}
 
 int the_front()
 {
     clear_screen();
-    color_text(4);
+    /*color_text(4);
     lines(3);
     color_text(3);
     int a = 40;
@@ -96,12 +60,12 @@ int the_front()
         }
             printf("\n");
     }
-    
+
     color_text(2);
 
     printf(" SRI LANKA PARLIAMENTARY ELECTION SYSTEM\n");
     printf("                  2025");
-    
+
     color_text(3);
     a = 40;
     for (int i = a; i > 0; i-=4)
@@ -120,9 +84,33 @@ int the_front()
         }
             printf("\n");
     }
-    
+
     color_text(4);
-    lines(3);
+    lines(3);*/
+
+    printf("\n");
+    printf("========================================\n");
+    printf("##                                    ##\n");
+    printf("##    ####    ##   ##   ####          ##\n");
+    printf("##    ##  #   ##   ##  ##             ##\n");
+    printf("##    ##   #   ## ##    ####          ##\n");
+    printf("##    ##  #     ###        ##         ##\n");
+    printf("##    ####       ##     ####          ##\n");
+    printf("##                                    ##\n");
+    printf("##  ==============================    ##\n");
+    printf("##     DIGITAL VOTING SYSTEM          ##\n");
+    printf("##  ==============================    ##\n");
+    printf("##                                    ##\n");
+    printf("##       >> CAST YOUR VOTE <<         ##\n");
+    printf("##                                    ##\n");
+    printf("##       ------- by ---------         ##\n");
+    printf("##       TG/2024/2073                 ##\n");
+    printf("##              TG/2024/2075          ##\n");
+    printf("##       TG/2024/2122                 ##\n");
+    printf("##              TG/2024/2142          ##\n");
+    printf("##                                    ##\n");
+    printf("========================================\n");
+    printf("\n");
     printf("Press any key and then enter to\nproceed to the main menu: ");
     int s;
     getchar();

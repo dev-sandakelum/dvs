@@ -53,6 +53,9 @@ int register_user()
             color_text(1);
             error_message(err);
             color_text(0);
+            printf("\n");
+            lines(3);
+            printf("\033[2A");
             printf("Enter your choice: ");
             scanf("%d", &register_as);
             if (exit_from_0(register_as, 0))
@@ -83,6 +86,9 @@ int register_user()
             printf("    1. Mathara\n");
             color_text(0);
             lines(1);
+            printf("\n");
+            lines(3);
+            printf("\033[2A");
             printf("  Enter your district: ");
             scanf("%d", &district);
             if (exit_from_0(district, 0))
@@ -117,6 +123,9 @@ int register_user()
             printf("    5. NU -> national unity\n");
             color_text(0);
             lines(1);
+            printf("\n");
+            lines(3);
+            printf("\033[2A");
             printf("  Your choice: ");
             scanf("%d", &party);
             if (exit_from_0(party, 0))
@@ -138,8 +147,13 @@ int register_user()
         if (sec == 0)
         {
             printf("| PERSONAL DETAILS --------------------\n");
+            printf("\n");
+            lines(3);
+            printf("\033[2A");
             printf("  Enter your name: ");
+            color_text(5);
             scanf("%s", &name);
+            color_text(0);
             if (exit_from_0(1, *name))
             {
                 break;
@@ -184,8 +198,13 @@ int register_user()
                         continue;
                     }
                 }
+                printf("\n");
+                lines(3);
+                printf("\033[2A");
                 printf("  Enter your NIC number: ");
+                color_text(5);
                 scanf("%s", nic);
+                color_text(0);
                 if (exit_from_0(1, *nic))
                 {
                     break;
@@ -227,8 +246,13 @@ int register_user()
         if (sec == 2)
         {
             printf("| ELIGIBILITY -------------------------\n");
+            printf("\n");
+            lines(3);
+            printf("\033[2A");
             printf("  Enter your year of birth (YYYY): ");
+            color_text(5);
             scanf("%d", &dob);
+            color_text(0);
             if (exit_from_0(dob, 0))
             {
                 break;
@@ -277,15 +301,24 @@ int register_user()
             if (pass_attempt < 4)
             {
                 printf("| PASSWORD SETUP -----------------------\n");
-
+                printf("\n");
+                lines(3);
+                printf("\033[2A");
                 printf("  Enter your password: ");
+                color_text(5);
                 scanf("%s", password);
+                color_text(0);
                 if (exit_from_0(1, *password))
                 {
                     break;
                 }
+                printf("\n");
+        lines(3);
+        printf ("\033[2A");
                 printf("  Confirm your password: ");
+                color_text(5);
                 scanf("%s", confirm_password);
+                color_text(0);
 
                 if (strcmp(password, confirm_password) != 0)
                 {
@@ -310,7 +343,7 @@ int register_user()
                             // Handle error
                         }
                     }
-                    else if(register_as == 1)
+                    else if (register_as == 1)
                     {
                         save_result = save_user_as_voter(nic, name, password, age);
                         if (save_result == 0)
