@@ -8,14 +8,19 @@ int login_user()
     char nic[20] = "";
     char password[20] = "";
 
-    printf("NIC : ");
+    printf("| LOGIN -------------------------------\n");
+    printf(" NIC : ");
+    color_text(5);
     scanf("%s", nic);
+    color_text(0);
 
-    printf("Password : ");
+    printf(" Password : ");
+    color_text(5);
     scanf("%s", password);
+    color_text(0);
 
     //------- Check credentials from file
-    int result = login_by_pass(nic, password ,"password"); // nic , password , login_type
+    int result = login_by_pass(nic, password, "password"); // nic , password , login_type
     if (result == 1)
     {
         color_text(2);

@@ -207,6 +207,7 @@ int vote_user(char *user_nic, char *user_name)
         printf("User %s has already voted.\n", user_nic);
         color_text(0);
         lines(1);
+        //voted_details_section("Matara", "party", (int[3]){12, 14, 15}, (char *[3]){"find_candidate_name(vote1)", "find_candidate_name(vote2)", "find_candidate_name(vote3)"}, 3);
         exit_to();
         return 0;
     }
