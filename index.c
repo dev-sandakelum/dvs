@@ -17,7 +17,7 @@ int save_user_as_voter(char *nic, char *name, char *password, int age);
 int save_user_as_candidate(char *nic, char *name, char *password, int age, int district, int party);
 int check_nic_exists(char *nic);
 char *find_nic(char *nic);
-int login_by_pass(char *nic, char *password, char log_type[10]);
+int login_by_pass(char *nic, char *password, const char *log_type);
 char *check_login();
 int save_login_session(char *nic);
 int administrator(char user_nic[20]);

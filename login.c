@@ -8,7 +8,7 @@ int login_user()
     char nic[20] = "";
     char password[20] = "";
 
-    printf("| LOGIN -------------------------------\n");
+    printf("| LOGIN --------------------------------\n");
     printf(" NIC : ");
     color_text(5);
     scanf("%s", nic);
