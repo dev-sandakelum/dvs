@@ -57,6 +57,7 @@ int register_user()
             color_text(0);
             printf("Enter your choice: ");
             scanf("%d", &register_as);
+            lines(1);
             if (exit_from_0(register_as, 0))
             {
                 break;
@@ -88,6 +89,7 @@ int register_user()
             lines(1);
             printf("  Enter your district: ");
             scanf("%d", &district);
+            lines(1);
             if (exit_from_0(district, 0))
             {
                 break;
@@ -122,6 +124,7 @@ int register_user()
             lines(1);
             printf("  Your choice: ");
             scanf("%d", &party);
+            lines(1);
             if (exit_from_0(party, 0))
             {
                 break;
@@ -145,6 +148,7 @@ int register_user()
             color_text(5);
             scanf("%s", name);
             color_text(0);
+            lines(1);
             if (exit_from_0(1, *name))
             {
                 break;
@@ -193,6 +197,7 @@ int register_user()
                 color_text(5);
                 scanf("%s", nic);
                 color_text(0);
+                lines(1);
                 if (exit_from_0(1, *nic))
                 {
                     break;
@@ -253,6 +258,7 @@ int register_user()
             color_text(5);
             scanf("%d", &dob);
             color_text(0);
+            lines(1);
             if (exit_from_0(dob, 0))
             {
                 break;
@@ -306,6 +312,7 @@ int register_user()
                 color_text(5);
                 scanf("%s", password);
                 color_text(0);
+                lines(1);
                 if (exit_from_0(1, *password))
                 {
                     break;

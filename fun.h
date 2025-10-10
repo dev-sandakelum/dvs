@@ -86,9 +86,9 @@ int exit_to()
     scanf(" %c", &temp);
     return 0;
 }
-int exit_from_0(char input, char check_char)
+int exit_from_0(char input, char check_char )
 {
-    lines(1);
+    //lines(1);
     if (input == 0 || check_char == '0')
     {
         exit_to();
