@@ -11,12 +11,16 @@ int save_vote(char *voter_id, char *userName, int vote1, int vote2, int vote3, c
         exit_to();
     }
 
-    fprintf(f, "%s,%s,%d|%d|%d,%s\n", voter_id, userName, vote1, vote2, vote3, district);
+    if (fprintf(f, "%s,%s,%d|%d|%d,%s\n", voter_id, userName, vote1, vote2, vote3, district) < 0)
+    {
+        fclose(f);
+        return 1;
+    }
     fclose(f);
 
     //========================================================================================
     char *status;
-    status = "ACTIVE";
+    status = "VOTED"; // user has now voted
     if (remove("data/users.txt") == 0)
     {
         printf("file deleted\n");

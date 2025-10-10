@@ -143,7 +143,7 @@ int register_user()
             printf("| PERSONAL DETAILS --------------------\n");
             printf("  Enter your name: ");
             color_text(5);
-            scanf("%s", &name);
+            scanf("%s", name);
             color_text(0);
             if (exit_from_0(1, *name))
             {
