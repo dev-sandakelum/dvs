@@ -89,3 +89,7 @@
 200987654321,Dick,password,30,Matara,VOTED
 200990011223,Gandalf,password,32,Matara,VOTED
 200990011334,Ebenezer,password,28,Matara,VOTED
+200501034563,er,rtut,25,Matara,VOTED
+200501302254,1,1000,22,Matara,VOTED
+200501302245,e,r,24,Matara,VOTED
+

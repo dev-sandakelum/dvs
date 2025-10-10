@@ -1,26 +1,40 @@
 #include <stdio.h>
 #include <string.h>
+
 char *check_login()
 {
-    char nic[20];
+    static char nic[20];
     FILE *f = fopen("data/login_save.txt", "r");
     if (f == NULL)
     {
-        return "0";
+        strcpy(nic, "0");
+        return nic;
     }
     if (fgets(nic, sizeof(nic), f) == NULL)
     {
-        return "0";
+        fclose(f);
+        strcpy(nic, "0");
+        return nic;
     }
     fclose(f);
-    return strdup(nic);
+    // trim trailing newline if present
+    size_t len = strlen(nic);
+    if (len > 0 && (nic[len - 1] == '\n' || nic[len - 1] == '\r'))
+    {
+        nic[len - 1] = '\0';
+    }
+    return nic;
 }
+
 int save_login_session(char *nic)
 {
-    char filepath[30];
-    sprintf(filepath, "data/login_save.txt");
+    const char *filepath = "data/login_save.txt";
     remove(filepath);
-    FILE *f = fopen(filepath, "w+");
+    FILE *f = fopen(filepath, "w");
+    if (!f)
+    {
+        return 1;
+    }
     fprintf(f, "%s", nic);
     fclose(f);
     return 0;

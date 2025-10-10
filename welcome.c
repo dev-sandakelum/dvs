@@ -40,53 +40,6 @@ int welcome_screen()
 int the_front()
 {
     clear_screen();
-    /*color_text(4);
-    lines(3);
-    color_text(3);
-    int a = 40;
-    for (int i = 4; i <= a; i+=4)
-    {
-        for (int k = (a-i)*.5; k > 0; k--)
-        {
-            printf("*");
-        }
-        for (int j = 0; j < i; j++)
-        {
-            printf(" ");
-        }
-        for (int m = (a-i)*.5; m > 0; m--)
-        {
-            printf("*");
-        }
-            printf("\n");
-    }
-
-    color_text(2);
-
-    printf(" SRI LANKA PARLIAMENTARY ELECTION SYSTEM\n");
-    printf("                  2025");
-
-    color_text(3);
-    a = 40;
-    for (int i = a; i > 0; i-=4)
-    {
-        for (int k = (a-i)*.5; k > 0; k--)
-        {
-            printf("*");
-        }
-        for (int j = 0; j < i; j++)
-        {
-            printf(" ");
-        }
-        for (int m = (a-i)*.5; m > 0; m--)
-        {
-            printf("*");
-        }
-            printf("\n");
-    }
-
-    color_text(4);
-    lines(3);*/
 
     printf("\n");
     printf("========================================\n");

@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct
-{
+struct Candidate {
     int id;
-    int nic[12];
+    char nic[20];
     char name[50];
     char password[30];
     int age;
     char party[10];
     int party_no;
-} Candidate;
+};
+struct Candidate c;
 
 char districts[10][20];
 int district_count = 0;
@@ -19,7 +19,7 @@ int district_count = 0;
 char parties[10][10];
 int party_count = 0;
 
-Candidate candidates[50];
+struct Candidate candidates[50];
 int candidate_count = 0;
 
 int user_count = 0;
@@ -69,6 +69,7 @@ int load_users(char *user_nic)
     }
 
     fclose(f);
+    return 0; // no early return -> user has not voted
 }
 
 void load_candidates()
@@ -82,9 +83,10 @@ void load_candidates()
     char line[256];
     while (fgets(line, sizeof(line), f))
     {
-        Candidate c;
+        struct Candidate c;
         // sscanf(line, "%[^,],%[^,],%[^,],%d", c.id, c.name, c.party, &c.party_no);
-        sscanf(line, "%d,%[^,],%[^,],%[^,],%d,%[^,],%d", &c.id, c.nic, c.name, c.password, &c.age, &c.party, &c.party_no);
+        sscanf(line, "%d,%[^,],%[^,],%[^,],%d,%[^,],%d",
+            &c.id, c.nic, c.name, c.password, &c.age, c.party, &c.party_no);
         candidates[candidate_count++] = c;
         int found = 0;
         for (int i = 0; i < party_count; i++)
@@ -207,6 +209,7 @@ int vote_user(char *user_nic, char *user_name)
         printf("User %s has already voted.\n", user_nic);
         color_text(0);
         lines(1);
+        //voted_details_section("Matara", "party", (int[3]){12, 14, 15}, (char *[3]){"find_candidate_name(vote1)", "find_candidate_name(vote2)", "find_candidate_name(vote3)"}, 3);
         exit_to();
         return 0;
     }

@@ -15,7 +15,6 @@ int clear_screen()
     {
         system("clear");
     }
-    //printf("\033[2J\033[H");
     return 0;
 }
 

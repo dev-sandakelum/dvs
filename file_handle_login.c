@@ -6,7 +6,7 @@
 //                              login -->>
 //--------------------------------------------------------------------------------------------------
 
-int login_by_pass(char *nic ,char *password , char log_type[10]){
+int login_by_pass(char *nic ,char *password , const char *log_type){
     FILE *user_text = fopen("data/users.txt", "r");
     if (user_text == NULL)
     {
@@ -16,7 +16,7 @@ int login_by_pass(char *nic ,char *password , char log_type[10]){
     while (fgets(line, sizeof(line), user_text))
     {
         sscanf(line, "%[^,],%[^,],%[^,],%[^,]", db_nic ,db_name, db_password , db_age );
-        if(strcmp(db_nic , nic)== 0 && (strcmp(db_password , password)== 0 || log_type == "session")){
+        if(strcmp(db_nic , nic)== 0 && (strcmp(db_password , password)== 0 || (log_type != NULL && strcmp(log_type, "session") == 0))){
             save_login_session(db_nic);
             set_user(db_nic, db_name, db_password, db_age);
             fclose(user_text);
@@ -25,4 +25,5 @@ int login_by_pass(char *nic ,char *password , char log_type[10]){
     }
     fclose(user_text);
     return 0;
+    
 }
