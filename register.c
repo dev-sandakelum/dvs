@@ -254,15 +254,35 @@ int register_user()
         if (sec == 2)
         {
             printf("| ELIGIBILITY -------------------------\n");
+            color_text(1);
+            error_message(err);
+            color_text(0);
             printf("  Enter your year of birth(YYYY):");
             color_text(5);
-            scanf("%d", &dob);
+            char temp_dob[10];
+            scanf("%s", temp_dob);
             color_text(0);
             lines(1);
             if (exit_from_0(dob, 0))
             {
                 break;
             }
+            int invalid_age = 0;
+            for (int i = 0; i < strlen(temp_dob); i++)
+            {
+                if (temp_dob[i] < '0' || temp_dob[i] > '9')
+                {
+                    err = "Invalid Input.\nPlease enter a valid Year of birth.";
+                    invalid_age = 1;
+                    break;
+                }
+            }
+            if (invalid_age) {
+                continue;
+            }
+            dob = atoi(temp_dob);
+            printf("%d\n", dob);
+
             age = 2025 - dob;
             if (age >= 18)
             {

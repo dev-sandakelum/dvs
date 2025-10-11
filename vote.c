@@ -190,10 +190,12 @@ int vote_user(char *user_nic, char *user_name)
     // User *user;                                       // logged in user
 
     char voter_id[20];
-    if (user_nic == NULL)
+    if (user_nic == NULL || strlen(user_nic) < 12)
     {
         top_bar();
-        printf("User NIC is not provided. \nPlease login first.\n");
+        color_text(1);
+        printf("User NIC is not provided or invalid. \nPlease login first.\n");
+        color_text(0);
         lines(1);
         exit_to();
         return 1;
@@ -269,7 +271,7 @@ int vote_user(char *user_nic, char *user_name)
                     continue;
                 }
             }
-            if (d_choice != 2 && d_choice > 0 && d_choice <= 8)
+            if (d_choice != 1 && d_choice > 0 && d_choice <= 8)
             {
                 color_text(3);
                 lines(1);
