@@ -1,14 +1,20 @@
 #include <stddef.h>
 
-int main_menu(char *user_nic)
+int main_menu(char *user_nic, char *user_name, char *user_pass, char *user_age)
 {
     while (1)
     {
         int choice;
         int key_return = 0;
         top_bar();
+
+        color_text(2);
+        printf("             Welcome to the\n");
+        printf("      Digital Voting System (DVS)!\n");
+        color_text(0);
+        lines(1);
         // Display user NIC if logged in
-        if (user_nic != NULL  && strlen(user_nic) > 11)
+        if (user_nic != NULL && strlen(user_nic) > 11)
         {
 
             if (user_nic)
@@ -37,7 +43,11 @@ int main_menu(char *user_nic)
         printf("  3. Vote\n");
         printf("  4. View Results\n");
         printf("  5. Instructions\n");
+        printf("  6. Logout\n");
         printf("  0. Exit\n");
+        // For admin
+        lines(1);
+        printf("  99. Administrative\n");
         lines(3);
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -51,7 +61,7 @@ int main_menu(char *user_nic)
             register_user();
             break;
         case 3:
-            vote_user(user_nic);
+            vote_user(user_nic, user_name);
             break;
         case 4:
             view_results();
@@ -59,21 +69,18 @@ int main_menu(char *user_nic)
         case 5:
             instructions();
             break;
+        case 6:
+            logout();
+            break;
         case 0:
-            top_bar();
-            printf("| EXIT ---------------------------------\n");
-            lines(2);
-            printf("Thank you for using SL Election System!\n");
-            printf("Goodbye!\n");
-            lines(3);
+            good_bye();
             key_return = 1;
             break;
+        case 99:
+            administrator(user_nic);
+            break;
         default:
-            top_bar();
-            printf("| ERROR --------------------------------\n");
-            error_message("Invalid choice. Please select a valid option (0-4).");
-            lines(3);
-            exit_to();
+            menu_default_error();
             break;
         }
 

@@ -86,14 +86,20 @@ int exit_to()
     scanf(" %c", &temp);
     return 0;
 }
-int exit_from_0(char input, char check_char)
+int exit_from_0(char input, char check_char )
 {
-    lines(1);
+    //lines(1);
     if (input == 0 || check_char == '0')
     {
         exit_to();
         return 1;
     }
+    return 0;
+}
+int continue_to(){
+    printf("type something and \nPress enter to continue: ");
+    char temp;
+    scanf(" %c", &temp);
     return 0;
 }
 
@@ -120,7 +126,7 @@ int error_message(char *err)
 int success_message(char *message)
 {
     lines(1);
-    printf("SUCCESS: %s\n", message);
+    printf("| %s \n", message);
     lines(1);
     return 0;
 }
@@ -158,5 +164,27 @@ char *get_party_by_num(int party_num)
     default:
         return "Unknown";
     }
+}
+int good_bye()
+{
+    top_bar();
+    printf("| EXIT ---------------------------------\n");
+    lines(2);
+    color_text(5);
+    printf("Thank you \nfor using SL Election System!\n");
+    printf("Goodbye!\n");
+    color_text(0);
+    lines(3);
+    return 1;
+}
+int menu_default_error()
+{
+    top_bar();
+    printf("| ERROR --------------------------------\n");
+    color_text(1);
+    error_message("\t   Invalid choice. \n     Please select a valid option.");
+    color_text(0);
+    lines(3);
+    exit_to();
 }
 #endif

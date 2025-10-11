@@ -1,4 +1,6 @@
 #include <stddef.h>
+#include <stdio.h>
+#include <string.h>
 void details_section(int nic_status, char *nic, char *name, int age, int nic_attempt);
 
 int register_user()
@@ -55,10 +57,12 @@ int register_user()
             color_text(0);
             printf("Enter your choice: ");
             scanf("%d", &register_as);
+            lines(1);
             if (exit_from_0(register_as, 0))
             {
                 break;
             }
+
             if (register_as < 3 && register_as > 0)
             {
                 sec = (register_as == 1) ? 0 : 5;
@@ -85,6 +89,7 @@ int register_user()
             lines(1);
             printf("  Enter your district: ");
             scanf("%d", &district);
+            lines(1);
             if (exit_from_0(district, 0))
             {
                 break;
@@ -119,6 +124,7 @@ int register_user()
             lines(1);
             printf("  Your choice: ");
             scanf("%d", &party);
+            lines(1);
             if (exit_from_0(party, 0))
             {
                 break;
@@ -139,7 +145,10 @@ int register_user()
         {
             printf("| PERSONAL DETAILS --------------------\n");
             printf("  Enter your name: ");
-            scanf("%s", &name);
+            color_text(5);
+            scanf("%s", name);
+            color_text(0);
+            lines(1);
             if (exit_from_0(1, *name))
             {
                 break;
@@ -185,11 +194,29 @@ int register_user()
                     }
                 }
                 printf("  Enter your NIC number: ");
+                color_text(5);
                 scanf("%s", nic);
+                color_text(0);
+                lines(1);
                 if (exit_from_0(1, *nic))
                 {
                     break;
                 }
+                // check nic is number or not
+                int invalid_nic = 0;
+                for (int i = 0; i < strlen(nic); i++)
+                {
+                    if (nic[i] < '0' || nic[i] > '9')
+                    {
+                        err = "Invalid NIC number.\nPlease enter a valid NIC number.";
+                        invalid_nic = 1;
+                        break;
+                    }
+                }
+                if (invalid_nic) {
+                    continue;
+                }
+
                 // check if NIC is 12 digits
                 if (strlen(nic) != 12)
                 {
@@ -227,8 +254,11 @@ int register_user()
         if (sec == 2)
         {
             printf("| ELIGIBILITY -------------------------\n");
-            printf("  Enter your year of birth (YYYY): ");
+            printf("  Enter your year of birth(YYYY):");
+            color_text(5);
             scanf("%d", &dob);
+            color_text(0);
+            lines(1);
             if (exit_from_0(dob, 0))
             {
                 break;
@@ -257,9 +287,10 @@ int register_user()
         // Password section
         if (sec == 3)
         {
-            color_text(2);
+
             if (pass_attempt == 0)
             {
+                color_text(2);
                 err = "You are eligible to register.";
                 error_message(err);
             }
@@ -277,15 +308,19 @@ int register_user()
             if (pass_attempt < 4)
             {
                 printf("| PASSWORD SETUP -----------------------\n");
-
                 printf("  Enter your password: ");
+                color_text(5);
                 scanf("%s", password);
+                color_text(0);
+                lines(1);
                 if (exit_from_0(1, *password))
                 {
                     break;
                 }
                 printf("  Confirm your password: ");
+                color_text(5);
                 scanf("%s", confirm_password);
+                color_text(0);
 
                 if (strcmp(password, confirm_password) != 0)
                 {
@@ -310,7 +345,7 @@ int register_user()
                             // Handle error
                         }
                     }
-                    else if(register_as == 1)
+                    else if (register_as == 1)
                     {
                         save_result = save_user_as_voter(nic, name, password, age);
                         if (save_result == 0)
