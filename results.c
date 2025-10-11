@@ -1,15 +1,19 @@
 #include <stdio.h>
+#define MAX_CANDIDATES 30
+#define MAX_PARTIES 10
 // Global array to hold vote counts for 25 candidates (index 0 total votes)
-int votes[25] = {};
-char candidate_name[25][50] = {};
-char get_parties[10][20] = {}; // party names
-int party_candidates[10][2] = {}; // party index, number of candidates
+int votes[MAX_CANDIDATES] = {};
+char candidate_name[MAX_CANDIDATES][50] = {};
+char get_parties[MAX_PARTIES][20] = {}; // party names
+int party_candidates[MAX_PARTIES][2] = {}; // party index, number of candidates
 int count_of_party = 0; // track number of parties
-int order_of_party[10] = {};
+int order_of_party[MAX_PARTIES] = {};
 int MostPopularCandidateIndex = 1;
 int MostPopularPartyIndex = 0;
 
-
+//-----------------------------------------------------------------------------------------------------
+//              Reset results globals
+//-----------------------------------------------------------------------------------------------------
 void reset_results_globals() {
     for (int i = 0; i < 25; i++) {
         votes[i] = 0;
@@ -36,27 +40,31 @@ int view_results(){
         top_bar();
         load_get_parties();
         calculate_results();
+        //printf("%s %d %s\n", get_parties[0], party_candidates[0][0] );
         printf("| ELECTION RESULTS --------------------\n");
         lines(1);
         printf("PARTY RESULTS:\n");
         lines(1);
         printf("|%-4s |%-23s |%-18s\n", "Rank", "Party", "Votes");
         lines(1);
-        int total_votes = 0;
+        int total_votes = 0 , c_num =0;
+
+        // Calculate total votes for each party ====================================
         for (int i = 0; i < count_of_party; i++)
         {
             total_votes = 0; // Reset for each party
             for (int j = 0; j < party_candidates[i][1]; j++)
             {
-                total_votes += votes[party_candidates[i][0] + j];
-                order_of_party[i] += votes[party_candidates[i][0] + j];
+                c_num++;
+                total_votes += votes[c_num];
             }
+            order_of_party[i] = total_votes;
 
             // BP,Blue Party,Flower,Blue
-        // GA,Green Alliance,Elephant,Green
-        // RM,Red Movement,Telephone,Red
-        // PF,People's Front,Compass,Purple
-        // NU,National Unity,Key,Orange
+            // GA,Green Alliance,Elephant,Green
+            // RM,Red Movement,Telephone,Red
+            // PF,People's Front,Compass,Purple
+            // NU,National Unity,Key,Orange
 
             // Set color based on party initial
             if(get_parties[i][0] == 'B'){
@@ -110,14 +118,7 @@ int view_results(){
             //printf("Total parties: %d\n", count_of_party);
 
         lines(1);
-        for (int i = 0; i < 25; i++)
-        {
-            
-            if (votes[i] > 0)
-            {
-                printf("Candidate: %-20s | Votes: %d\n", candidate_name[i], votes[i]);
-            }
-        }
+        
         
         printf("1. Refresh \t");
         printf("0. Back to Main Menu\n");
@@ -183,6 +184,7 @@ int load_get_parties(){
 
         strcpy(candidate_name[id], name);
         found = 0;
+        // Check if party already exists ================================
         for (int i = 0; i < count_of_party; i++)
         {
             if (strcmp(get_parties[i], party) == 0)
@@ -191,19 +193,30 @@ int load_get_parties(){
                 break;
             }
         }
+        // If not found, add new party ================================
         if(found == 0){
             strcpy(get_parties[count_of_party], party);
             count_of_party++;
-        }
 
+            // get_parties[0] -> Blue Party
+            // get_parties[1] -> Green Alliance
+            // get_parties[2] -> Red Movement
+            // get_parties[3] -> People's Front
+            // get_parties[4] -> National Unity
+        }
+        // Count candidates per party =================================
         for (int i = 0; i < count_of_party; i++)
         {
             if (strcmp(get_parties[i], party) == 0)
             {
-                if (party_candidates[i][1] == 0) {
-                    party_candidates[i][0] = id; // Store first candidate ID
-                }
                 party_candidates[i][1]++;
+                // party_candidates[i] = {[party_name],[number_of_candidates]}
+                // party_candidates[0] = {Blue Party, 5}
+                // party_candidates[1] = {Green Alliance, 4}
+
+                // party_candidates[1][0] = Green Alliance
+                // party_candidates[1][1] = 4
+                break;
             }
         } 
 
