@@ -212,3 +212,4 @@ int load_get_parties(){
     fclose(candidates_txt);
     return 0;
 }
+
