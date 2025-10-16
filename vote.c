@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct Candidate {
+struct Candidate
+{
     int id;
     char nic[20];
     char name[50];
@@ -50,10 +51,10 @@ int load_users(char *user_nic)
 
         if (strcmp(n_id, user_nic) == 0)
         {
-            if (strcmp(n_status, "VOTED") == 0)
-            {
-                return 1;
-            }
+            // if (strcmp(n_status, "VOTED") == 0)
+            // {
+            //     return 1;
+            // }
         }
         else
         {
@@ -86,7 +87,7 @@ void load_candidates()
         struct Candidate c;
         // sscanf(line, "%[^,],%[^,],%[^,],%d", c.id, c.name, c.party, &c.party_no);
         sscanf(line, "%d,%[^,],%[^,],%[^,],%d,%[^,],%d",
-            &c.id, c.nic, c.name, c.password, &c.age, c.party, &c.party_no);
+               &c.id, c.nic, c.name, c.password, &c.age, c.party, &c.party_no);
         candidates[candidate_count++] = c;
         int found = 0;
         for (int i = 0; i < party_count; i++)
@@ -172,6 +173,7 @@ char *find_candidate_name(int id);
 void voted_details_section(char *district, char *party, int ids[3], char *names[3], int p_choice);
 int try_again();
 int is_candidate_in_party(int candidate_id, char *party);
+int is_user_voted(char *user_nic);
 // ========== from file_handle_vote.c ============
 int save_vote(char *voter_id, char *userName, int vote1, int vote2, int vote3, char *district, char **read_all_users, int u_count);
 
@@ -202,8 +204,8 @@ int vote_user(char *user_nic, char *user_name)
     }
     strcpy(voter_id, user_nic);
 
-    int result = load_users(user_nic);
-    if (result == 1)
+    int _is_user_voted = is_user_voted(user_nic);
+    if (_is_user_voted == 1)
     {
         top_bar();
         lines(1);
@@ -211,10 +213,11 @@ int vote_user(char *user_nic, char *user_name)
         printf("User %s has already voted.\n", user_nic);
         color_text(0);
         lines(1);
-        //voted_details_section("Matara", "party", (int[3]){12, 14, 15}, (char *[3]){"find_candidate_name(vote1)", "find_candidate_name(vote2)", "find_candidate_name(vote3)"}, 3);
+        // voted_details_section("Matara", "party", (int[3]){12, 14, 15}, (char *[3]){"find_candidate_name(vote1)", "find_candidate_name(vote2)", "find_candidate_name(vote3)"}, 3);
         exit_to();
         return 0;
     }
+    int result = load_users(user_nic);
     load_candidates();
     while (1)
     {

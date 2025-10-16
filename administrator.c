@@ -3,7 +3,7 @@
 
 int admin_menu();
 int set_results_status(int enable);
-int check_results_status();
+//int check_results_status();
 
 int administrator(char user_nic[20])
 {

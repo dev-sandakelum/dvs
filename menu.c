@@ -9,25 +9,16 @@ int main_menu(char *user_nic, char *user_name, char *user_pass, char *user_age)
         top_bar();
 
         color_text(2);
-        printf("             Welcome to the\n");
+        printf("            Welcome to the\n");
         printf("      Digital Voting System (DVS)!\n");
         color_text(0);
         lines(1);
         // Display user NIC if logged in
         if (user_nic != NULL && strlen(user_nic) > 11)
         {
-
-            if (user_nic)
-            {
-                color_text(2);
-                printf("| USER: ");
-                printf("%s", user_nic);
-            }
-            else
-            {
-                color_text(1);
-                printf("| USER: Not logged in");
-            }
+                color_text(5);
+                printf("| Welcome back, %s!", user_name);
+            
         }
         else
         {
@@ -38,6 +29,7 @@ int main_menu(char *user_nic, char *user_name, char *user_pass, char *user_age)
         color_text(0);
         lines(2);
         printf("| MAIN MENU ----------------------------\n");
+
         printf("  1. Login\n");
         printf("  2. Register\n");
         printf("  3. Vote\n");

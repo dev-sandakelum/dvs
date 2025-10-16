@@ -11,7 +11,7 @@ int save_vote(char *voter_id, char *userName, int vote1, int vote2, int vote3, c
         exit_to();
     }
 
-    if (fprintf(f, "%s,%s,%d|%d|%d,%s\n", voter_id, userName, vote1, vote2, vote3, district) < 0)
+    if (fprintf(f, "%s,%s,%d|%d|%d,%s\n", voter_id, userName, vote1, vote2, vote3, district) < 0) // if write error (-1)
     {
         fclose(f);
         return 1;
@@ -40,3 +40,22 @@ int save_vote(char *voter_id, char *userName, int vote1, int vote2, int vote3, c
     return 0;
 }
 
+int is_user_voted(char *user_nic){
+    FILE *votes_txt = fopen("data/votes.txt", "r");
+    if (votes_txt == NULL)
+    {
+        return 2;
+    }
+    char line[256] , voter_id[12] ;
+
+    while (fgets(line, sizeof(line), votes_txt))
+    {
+        sscanf(line, "%[^,],", voter_id );
+        if(strcmp(user_nic, voter_id)== 0){
+            return 1;
+        }
+        
+    }
+    fclose(votes_txt);
+    return 0;
+}

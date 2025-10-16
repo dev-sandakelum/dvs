@@ -99,3 +99,7 @@
 201609255831,Ravindu_Jayawardena,8|10|6,Matara
 201903226823,Ravindu_Perera,14|11|13,Matara
 200502162214,Kalana_Gunasekara,8|10|7,Matara
+200501302250,test1,6|7|9,Matara
+200327833440,bhashitha,11|12|13,Matara
+200987654321,Dick,16|17|20,Matara
+200312321332,john,1|2|3,Matara

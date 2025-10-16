@@ -21,6 +21,7 @@ int login_by_pass(char *nic, char *password, const char *log_type);
 char *check_login();
 int save_login_session(char *nic);
 int administrator(char user_nic[20]);
+int check_results_status();
 
 // Global variables
 char *err;
