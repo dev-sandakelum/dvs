@@ -11,7 +11,10 @@ int about_us()
 
     color_text(0);
     lines(1);
-    printf("  Developed by Team 01\n");
+    printf("  Developed by ");
+    style_text('b');
+    printf("Team 01\n");
+    style_text('r');
     lines(1);
     color_text(5);
     printf(" - Hasitha Sandakelum \tTG/2024/2073\n");

@@ -62,6 +62,18 @@ int color_text(int color)
     }
     return 0;
 }
+int style_text(char style){
+    if (style == 'b') {
+        printf("\033[1m");
+    } else if (style == 'i') {
+        printf("\033[3m");
+    } else if (style == 'u') {
+        printf("\033[4m");
+    }else if (style == 'r') {
+        printf("\033[0m"); // reset
+    }
+    return 0;
+}
 
 int lines(int type)
 {
@@ -113,7 +125,9 @@ int top_bar()
 {
     clear_screen();
     lines(4);
+    style_text('b');
     printf("SRI LANKA PARLIAMENTARY ELECTION SYSTEM\n");
+    style_text('r');
     lines(1);
     return 0;
 }
