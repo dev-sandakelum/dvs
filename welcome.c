@@ -92,7 +92,7 @@ int the_front()
     lines(1);
     
     
-    printf("Press any key and then enter to\nproceed to the main menu: ");
+    printf("Press Enter :");
     int s;
     getchar();
     color_text(0);

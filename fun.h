@@ -55,6 +55,11 @@ int color_text(int color)
         // cyan
         printf("\033[0;36m");
     }
+    else if (color == 7)
+    {
+        // orange
+        printf("\033[0;33m");
+    }
     return 0;
 }
 
@@ -86,9 +91,9 @@ int exit_to()
     scanf(" %c", &temp);
     return 0;
 }
-int exit_from_0(char input, char check_char )
+int exit_from_0(char input, char check_char)
 {
-    //lines(1);
+    // lines(1);
     if (input == 0 || check_char == '0')
     {
         exit_to();
@@ -96,7 +101,8 @@ int exit_from_0(char input, char check_char )
     }
     return 0;
 }
-int continue_to(){
+int continue_to()
+{
     printf("type something and \nPress enter to continue: ");
     char temp;
     scanf(" %c", &temp);
@@ -186,5 +192,15 @@ int menu_default_error()
     color_text(0);
     lines(3);
     exit_to();
+}
+
+char *text_centering(char *text)
+{
+    char temp_text[50];
+    for (int i = 0; i < (40 - (strlen(text) + 1)) / 2; i++)
+    {
+        temp_text[i] = ' ';
+    }
+    return strdup(strcat(temp_text, text));
 }
 #endif

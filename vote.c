@@ -175,7 +175,7 @@ int try_again();
 int is_candidate_in_party(int candidate_id, char *party);
 int is_user_voted(char *user_nic);
 // ========== from file_handle_vote.c ============
-int save_vote(char *voter_id, char *userName, int vote1, int vote2, int vote3, char *district, char **read_all_users, int u_count);
+int save_vote(char *voter_id, char *userName, int vote1, int vote2, int vote3, char *district, char *party, char **read_all_users, int u_count);
 
 //--------------------------------------------------------------------------------------------
 //                           Main vote function starts here
@@ -213,7 +213,7 @@ int vote_user(char *user_nic, char *user_name)
         printf("User %s has already voted.\n", user_nic);
         color_text(0);
         lines(1);
-        // voted_details_section("Matara", "party", (int[3]){12, 14, 15}, (char *[3]){"find_candidate_name(vote1)", "find_candidate_name(vote2)", "find_candidate_name(vote3)"}, 3);
+        display_vote(user_nic, party_color);
         exit_to();
         return 0;
     }
@@ -339,11 +339,34 @@ int vote_user(char *user_nic, char *user_name)
             color_text(0);
             lines(1);
             printf("Vote 1: ");
+            color_text(5);
             scanf("%d", &vote1);
+            color_text(0);
+            printf("\033[A\033[20G");
             printf("Vote 2: ");
+            color_text(5);
             scanf("%d", &vote2);
+            if (vote1 == vote2)
+            {
+                color_text(1);
+                error_message("You cannot vote the same candidate twice.");
+                color_text(0);
+                continue_to();
+                continue;
+            }
+            color_text(0);
             printf("Vote 3: ");
+            color_text(5);
             scanf("%d", &vote3);
+            if (vote1 == vote3 || vote2 == vote3)
+            {
+                color_text(1);
+                error_message("You cannot vote the same candidate twice.");
+                color_text(0);
+                continue_to();
+                continue;
+            }
+            color_text(0);
             section = 5;
             continue;
         }
@@ -352,6 +375,7 @@ int vote_user(char *user_nic, char *user_name)
         // --------------------------------------------------------------------------------------------
         if (section == 5)
         {
+
             // filter votes
             if (!is_candidate_in_party(vote1, party) || !is_candidate_in_party(vote2, party) || !is_candidate_in_party(vote3, party))
             {
@@ -371,7 +395,7 @@ int vote_user(char *user_nic, char *user_name)
                 }
             }
             //-------------- SAVING VOTE TO DB ------------------------
-            save_vote(voter_id, userName, vote1, vote2, vote3, district, read_all_users, u_count);
+            save_vote(voter_id, userName, vote1, vote2, vote3, district, party, read_all_users, u_count);
 
             // complex function to show voted details --------------------------------------------------------
             voted_details_section(district, party, (int[3]){vote1, vote2, vote3}, (char *[3]){find_candidate_name(vote1), find_candidate_name(vote2), find_candidate_name(vote3)}, p_choice);
@@ -436,6 +460,10 @@ void voted_details_section(char *district, char *party, int ids[3], char *names[
     printf("| YOUR VOTED DETAILS -------------------\n");
 
     color_text(party_color[--p_choice]);
+    if (p_choice < 0)
+    {
+        color_text(2);
+    }
     printf("district: %-18s party: %s\n", district, party);
 
     for (int i = 0; i < 3; i++)
@@ -446,6 +474,7 @@ void voted_details_section(char *district, char *party, int ids[3], char *names[
     color_text(0);
     lines(1);
 }
+
 char *find_candidate_name(int id)
 {
     for (int i = 0; i < candidate_count; i++)

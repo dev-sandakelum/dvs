@@ -22,7 +22,9 @@ char *check_login();
 int save_login_session(char *nic);
 int administrator(char user_nic[20]);
 int check_results_status();
-
+int about_us();
+int display_vote(char *user_nic , int party_color[10]);
+char *find_candidate_name(int id);
 // Global variables
 char *err;
 char user[4][100] = {"", "", "", ""}; // nic, name, password, age
@@ -80,3 +82,4 @@ int main()
 #include "administrator.c"
 #include "file_handle_administrator.c"
 #include "instructions.c"
+#include "about_us.c"

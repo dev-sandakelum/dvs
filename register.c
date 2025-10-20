@@ -395,9 +395,12 @@ int register_user()
                     lines(2);
                     color_text(5);
                     //----("----------------------------------------\n");
-                    printf("           Welcome to \n");
-                    printf("    The Sri Lanka Parliamentary \n");
-                    printf("          Election System, %s!\n", name);
+                    printf("%s\n", text_centering("Welcome to"));
+                    printf("%s\n", text_centering("The Sri Lanka Parliamentary"));
+
+                    char temp_text[50];
+                    sprintf(temp_text, "Election System,%s!", name);
+                    printf("%s\n", text_centering(temp_text));
                     //----("----------------------------------------\n");
                     color_text(0);
                     lines(1);
@@ -406,12 +409,12 @@ int register_user()
                     {
                         printf("| Registration completed successfully!\n"
                                "| You are registered as a candidate.\n"
-                               "| also registered as a voter.");
+                               "| also registered as a voter.\n");
                     }
                     else
                     {
                         printf("| Registration completed successfully!\n"
-                               "| You are registered as a voter.");
+                               "| You are registered as a voter.\n");
                     }
                     color_text(0);
                     lines(3);
