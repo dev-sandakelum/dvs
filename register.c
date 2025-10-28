@@ -1,8 +1,8 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
-void details_section(int nic_status, char *nic, char *name, int age, int nic_attempt);
-
+void details_section(int nic_status, char *nic, char *name, int age, int nic_attempt, int register_as);
+int password_validation(char *password);
 int register_user()
 {
     char *err = NULL;
@@ -23,7 +23,7 @@ int register_user()
     // party 5 -> NU -> national unity
     //          ------
     // district 1 -> Mathara
-    char password[20], confirm_password[20];
+    char password[20], confirm_password[20], *ps_err_msg = "";
     int sec = 4;
     // sec 4 -> registration type section (future use)
     // sec 5 -> district section (candidate only)
@@ -37,7 +37,7 @@ int register_user()
     while (1)
     {
         top_bar();
-        details_section(nic_status, nic, name, age, nic_attempt);
+        details_section(nic_status, nic, name, age, nic_attempt, register_as);
 
         //---------------------------------------------------------------------------------------------------
         // Section 4 starts here
@@ -146,7 +146,7 @@ int register_user()
             printf("| PERSONAL DETAILS --------------------\n");
             printf("  Enter your name: ");
             color_text(5);
-            scanf("%s", name);
+            scanf(" %99[^\n]", name);
             color_text(0);
             lines(1);
             if (exit_from_0(1, *name))
@@ -213,7 +213,8 @@ int register_user()
                         break;
                     }
                 }
-                if (invalid_nic) {
+                if (invalid_nic)
+                {
                     continue;
                 }
 
@@ -277,7 +278,8 @@ int register_user()
                     break;
                 }
             }
-            if (invalid_age) {
+            if (invalid_age)
+            {
                 continue;
             }
             dob = atoi(temp_dob);
@@ -305,6 +307,7 @@ int register_user()
         // Section 3 starts here
         //---------------------------------------------------------------------------------------------------
         // Password section
+
         if (sec == 3)
         {
 
@@ -318,7 +321,7 @@ int register_user()
             {
                 color_text(1);
                 lines(1);
-                printf("Passwords do not match.\nPlease try again. \tattempt: %d/3\n", pass_attempt);
+                printf("%s \tattempt: %d/3\n", ps_err_msg, pass_attempt);
                 lines(1);
                 color_text(0);
             }
@@ -337,6 +340,16 @@ int register_user()
                 {
                     break;
                 }
+                if (!password_validation(password))
+                {
+                    pass_attempt++;
+                    ps_err_msg = "Password must contain:\n"
+                                 "  - At least one uppercase letter\n"
+                                 "  - At least one lowercase letter\n"
+                                 "  - At least one number\n"
+                                 "  - At least one special character\n\t\t";
+                    continue;
+                }
                 printf("  Confirm your password: ");
                 color_text(5);
                 scanf("%s", confirm_password);
@@ -346,7 +359,7 @@ int register_user()
                 {
                     pass_attempt++;
                     lines(1);
-                    printf("Registration failed due to password mismatch.\n");
+                    ps_err_msg = "Passwords do not match.\nPlease try again.";
                     lines(3);
                     continue;
                 }
@@ -355,11 +368,12 @@ int register_user()
 
                     // file operations
                     // file operations
-                    int save_result = 0;
+                    int save_result = 0, save_result_2 = 0;
                     if (register_as == 2)
                     {
                         save_result = save_user_as_candidate(nic, name, password, age, district, party);
-                        if (save_result == 0)
+                        save_result_2 = save_user_as_voter(nic, name, password, age);
+                        if (save_result == 0 || save_result_2 == 0)
                         { // 0 means failure
                             printf("Failed to save candidate data!");
                             // Handle error
@@ -376,14 +390,32 @@ int register_user()
                     }
 
                     // Registration successful
+                    top_bar();
+                    details_section(nic_status, nic, name, age, nic_attempt, register_as);
                     lines(2);
+                    color_text(5);
+                    //----("----------------------------------------\n");
+                    printf("%s\n", text_centering("Welcome to"));
+                    printf("%s\n", text_centering("The Sri Lanka Parliamentary"));
+
+                    char temp_text[50];
+                    sprintf(temp_text, "Election System,%s!", name);
+                    printf("%s\n", text_centering(temp_text));
+                    //----("----------------------------------------\n");
+                    color_text(0);
+                    lines(1);
                     color_text(2);
-                    success_message("Registration completed successfully!");
-                    //----("----------------------------------------");
-                    printf("           Welcome to \n");
-                    printf("    The Sri Lanka Parliamentary \n");
-                    printf("          Election System, %s!\n", name);
-                    //----("----------------------------------------");
+                    if (register_as == 2)
+                    {
+                        printf("| Registration completed successfully!\n"
+                               "| You are registered as a candidate.\n"
+                               "| also registered as a voter.\n");
+                    }
+                    else
+                    {
+                        printf("| Registration completed successfully!\n"
+                               "| You are registered as a voter.\n");
+                    }
                     color_text(0);
                     lines(3);
                     exit_to();
@@ -403,14 +435,24 @@ int register_user()
     return 0;
 }
 
-void details_section(int nic_status, char *nic, char *name, int age, int nic_attempt)
+void details_section(int nic_status, char *nic, char *name, int age, int nic_attempt, int register_as)
 {
     //| REGISTRATION -------------------------
     // Name:                    attempt: 0/3
     // NIC:                       age: 0
     // ----------------------------------------
-
-    printf("| REGISTRATION -------------------------\n");
+    if (register_as == 1)
+    {
+        printf("| VOTER REGISTRATION ------------------\n");
+    }
+    else if (register_as == 2)
+    {
+        printf("| CANDIDATE REGISTRATION --------------\n");
+    }
+    else
+    {
+        printf("| REGISTRATION -------------------------\n");
+    }
 
     color_text(2);
     printf("Name: %-14s     attempt: %d/3\n", name, nic_attempt);
@@ -432,4 +474,34 @@ void details_section(int nic_status, char *nic, char *name, int age, int nic_att
     printf("          age: %d\n", age);
     color_text(0);
     lines(1);
+}
+
+int password_validation(char *password)
+{
+    int upper = 0, lower = 0, symbles = 1, numbers = 0;
+    // symbles are ommited
+    for (int i = 0; i < strlen(password); i++)
+    {
+        if (password[i] >= 'A' && password[i] <= 'Z')
+        {
+            upper = 1;
+        }
+        else if (password[i] >= 'a' && password[i] <= 'z')
+        {
+            lower = 1;
+        }
+        else if (password[i] >= '0' && password[i] <= '9')
+        {
+            numbers = 1;
+        }
+        else
+        {
+            symbles = 1;
+        }
+    }
+    if ((upper && lower && symbles && numbers) == 1)
+    {
+        return 1;
+    }
+    return 0;
 }

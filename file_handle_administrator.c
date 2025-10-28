@@ -1,4 +1,4 @@
-
+#include <stdio.h>
 int check_results_status(){
     FILE *file = fopen("data/system.txt", "r");
     if (file == NULL)

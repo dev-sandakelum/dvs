@@ -64,7 +64,7 @@ int instructions()
             color_text(0);
             lines(2);
             color_text(2);
-            printf("1) NEXT : Data rules\n");
+            printf("1) Next : Data rules\n");
             color_text(1);
             printf("0) Instructions menu\n");
             color_text(0);
@@ -101,7 +101,7 @@ int instructions()
             color_text(0);
             lines(2);
             color_text(2);
-            printf("1) NEXT : Voting flow\n");
+            printf("1) Next : Voting flow\n");
             color_text(4);
             printf("2) Previous : Basic flow\n");
             color_text(1);
@@ -140,7 +140,7 @@ int instructions()
             color_text(0);
             lines(2);
             color_text(2);
-            printf("1) NEXT : Results/admin\n");
+            printf("1) Next : Results/admin\n");
             color_text(4);
             printf("2) Previous : Data rules\n");
             color_text(1);
@@ -180,7 +180,7 @@ int instructions()
             color_text(0);
             lines(2);
             color_text(2);
-            printf("1) NEXT : Test cases (1)\n");
+            printf("1) Next : Test cases (1)\n");
             color_text(4);
             printf("2) Previous : Voting flow\n");
             color_text(1);
@@ -242,7 +242,7 @@ int instructions()
             color_text(0);
             lines(2);
             color_text(2);
-            printf("1) NEXT : Test cases (2)\n");
+            printf("1) Next : Test cases (2)\n");
             color_text(4);
             printf("2) Previous : Results/admin\n");
             color_text(1);

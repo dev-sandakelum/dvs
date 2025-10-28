@@ -33,13 +33,14 @@ int welcome_screen()
     printf("NOTE: Educational simulation only\n");
     color_text(0);
     lines(1);
-    color_text(5);
-    printf("Choose: ");
     color_text(2);
-    printf("1=Menu ");
+    printf("\t1. Main Menu \n");
     color_text(6);
-    printf("0=Instructions: ");
+    printf("\t0. Instructions\n");
     color_text(0);
+    lines(1);
+    printf("Choose: ");
+
     scanf(" %c", &choice);
     if (choice == '1')
     {
@@ -57,30 +58,41 @@ int the_front()
 {
     clear_screen();
 
+    
     printf("\n");
-    printf("========================================\n");
-    printf("##                                    ##\n");
-    printf("##    ####    ##   ##   ####          ##\n");
-    printf("##    ##  #   ##   ##  ##             ##\n");
-    printf("##    ##   #   ## ##    ####          ##\n");
-    printf("##    ##  #     ###        ##         ##\n");
-    printf("##    ####       ##     ####          ##\n");
-    printf("##                                    ##\n");
-    printf("##  ==============================    ##\n");
-    printf("##     DIGITAL VOTING SYSTEM          ##\n");
-    printf("##  ==============================    ##\n");
-    printf("##                                    ##\n");
-    printf("##       >> CAST YOUR VOTE <<         ##\n");
-    printf("##                                    ##\n");
-    printf("##       ------- by ---------         ##\n");
-    printf("##       TG/2024/2073                 ##\n");
-    printf("##              TG/2024/2075          ##\n");
-    printf("##       TG/2024/2122                 ##\n");
-    printf("##              TG/2024/2142          ##\n");
-    printf("##                                    ##\n");
-    printf("========================================\n");
-    printf("\n");
-    printf("Press any key and then enter to\nproceed to the main menu: ");
+    lines(1);
+    //printf("  /\\::::/\\::::/\\::::/\\::::/\\::::/\\::::/\\\n");
+    //printf("  \\/____\\/____\\/____\\/____\\/____\\/____\\/\n");
+    printf("|                                      |\n");
+    printf("|   /$$$$$$$  /$$    /$$  /$$$$$$      |\n");
+    printf("|  | $$__  $$| $$   | $$ /$$__  $$     |\n");
+    printf("|  | $$  \\ $$| $$   | $$| $$  \\__/     |\n");
+    printf("|  | $$  | $$|  $$ / $$/|  $$$$$$      |\n");
+    printf("|  | $$  | $$ \\  $$ $$/  \\____  $$     |\n");
+    printf("|  | $$  | $$  \\  $$$/   /$$  \\ $$     |\n");
+    printf("|  | $$$$$$$/   \\  $/   |  $$$$$$/     |\n");
+    printf("|  |_______/     \\_/     \\______/      |\n");
+    printf("|                                      |\n");
+    printf("|  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  |\n");
+    printf("|       DIGITAL VOTING SYSTEM          |\n");
+    printf("|  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  |\n");
+    printf("|                                      |\n");
+    printf("|   Sri Lanka Parliamentary Election   |\n");
+    printf("|                                      |\n");
+    printf("|       >>> CAST YOUR VOTE <<<         |\n");
+    printf("|                                      |\n");
+    printf("|  ::::::::::::::::::::::::::::::::    |\n");
+    printf("|           Developed by:              |\n");
+    printf("|                                      |\n");
+    printf("|    TG/2024/2073  |  TG/2024/2075     |\n");
+    printf("|    TG/2024/2122  |  TG/2024/2142     |\n");
+    printf("|                                      |\n");
+    //printf("  \\/____\\/____\\/____\\/____\\/____\\/____\\/\n");
+    //printf("  /\\::::/\\::::/\\::::/\\::::/\\::::/\\::::/\\\n");
+    lines(1);
+    
+    
+    printf("Press Enter :");
     int s;
     getchar();
     color_text(0);
