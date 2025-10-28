@@ -48,3 +48,5 @@
 202307107635,Kasun_Perera,kasun@2023,2,Matara,ACTIVE
 202307191552,Madhavi_Rajapakse,m2023,2,Matara,VOTED
 201801019164,Ravindu_Gunasekara,r,7,Matara,VOTED
+200501332256,er,Gr33,25,Matara,VOTED
+200551302025,ome,Ome0113,20,Matara,VOTED

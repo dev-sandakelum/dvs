@@ -140,9 +140,23 @@ int view_results()
             printf("ELECTION STATISTICS:\n");
             lines(1);
             printf("Most Popular Candidate: \n");
-            printf("%s with %d votes\n", candidate_name[MostPopularCandidateIndex], votes[MostPopularCandidateIndex]);
+            color_text(6);
+            printf("%s ", candidate_name[MostPopularCandidateIndex]);
+            color_text(0);
+            printf("with ");
+            color_text(6);
+            printf("%d", votes[MostPopularCandidateIndex]);
+            color_text(0);
+            printf(" votes\n");
             printf("Most Popular Party: \n");
-            printf("%s with %d votes\n", get_parties[MostPopularPartyIndex], order_of_party[MostPopularPartyIndex]);
+            color_text(6);
+            printf("%s ", get_parties[MostPopularPartyIndex]);
+            color_text(0);
+            printf("with ");
+            color_text(6);
+            printf("%d", order_of_party[MostPopularPartyIndex]);
+            color_text(0);
+            printf(" votes\n");
             // printf("Total parties: %d\n", count_of_party);
 
             lines(1);
